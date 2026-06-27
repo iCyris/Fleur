@@ -62,7 +62,7 @@ const WORKS: Work[] = [
     index: '003',
     title: 'The Human Edge',
     year: 'Pillar',
-    medium: 'Philosophy · Human Quality',
+    medium: 'Philosophy · Human Nature',
     items: [
       { term: 'Taste', desc: 'telling good from bad; irreplaceable by AI.' },
       { term: 'Judgment', desc: 'making decisions in chaos.' },
