@@ -1,0 +1,125 @@
+/* ============================================================
+   Fleur — global styles, reset, utilities
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  letter-spacing: var(--track-body);
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p { margin: 0; }
+
+/* ============================================================
+   Halftone utility — inline SVG data URI, dot pattern
+   ============================================================ */
+
+.fleur-halftone {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><circle cx='1' cy='1' r='0.9' fill='%23F4ECDC' opacity='0.55'/></svg>");
+  background-size: 8px 8px;
+  background-position: 0 0;
+}
+
+.fleur-halftone-coarse {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><circle cx='2' cy='2' r='1.4' fill='%238B7BE0' opacity='0.6'/></svg>");
+  background-size: 14px 14px;
+}
+
+.fleur-grid-faint {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--seed-fg) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--seed-fg) 6%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ============================================================
+   Type utilities
+   ============================================================ */
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--track-mono);
+  text-transform: lowercase;
+  color: var(--color-fg-muted);
+}
+
+.mono-caps {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--color-fg-muted);
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+
+.signal {
+  color: var(--color-signal-fg);
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Selection — amber sliver
+   ============================================================ */
+
+::selection {
+  background: color-mix(in oklab, var(--seed-amber) 50%, transparent);
+  color: var(--seed-bg);
+}
+
+/* ============================================================
+   Focus ring — keyboard only
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--seed-neon) 60%, transparent);
+  outline-offset: 3px;
+}

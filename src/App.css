@@ -1,0 +1,17 @@
+.fleur {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: transparent;
+  overflow: clip;
+}
+
+.fleur__main {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fade-in scaffolding (handled by Framer motion as well; this is a safety net). */
+.fleur:not(.fleur--awake) .fleur__main {
+  opacity: 0;
+}

@@ -1,0 +1,104 @@
+.playground {
+  position: relative;
+  padding: var(--space-9) clamp(20px, 5vw, 72px);
+  z-index: 2;
+  min-height: 90vh;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+  background-color: color-mix(in oklab, var(--seed-bg) 96%, var(--seed-ocean));
+  cursor: crosshair;
+}
+
+.playground__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(40px, 5vw, 96px);
+  align-items: start;
+  margin-bottom: var(--space-9);
+}
+
+.playground__headline {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: var(--track-h1);
+  color: var(--color-fg);
+  margin: 0;
+  max-width: 14ch;
+}
+
+.playground__headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--seed-amber);
+}
+
+.playground__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  color: color-mix(in oklab, var(--color-fg) 78%, transparent);
+  max-width: 44ch;
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+
+.playground__copy .mono {
+  font-size: 12px;
+  text-transform: none;
+  color: color-mix(in oklab, var(--color-fg) 55%, transparent);
+}
+
+.playground__readout {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-glass-strong);
+  border: 1px solid var(--color-hairline);
+  margin-top: var(--space-6);
+}
+
+.playground__readout-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.playground__readout-row span:first-child {
+  color: color-mix(in oklab, var(--color-fg) 60%, transparent);
+  text-transform: uppercase;
+}
+
+.playground__readout-row span:last-child {
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: var(--color-fg);
+}
+
+.playground__hint {
+  text-align: center;
+  color: color-mix(in oklab, var(--color-fg) 50%, transparent);
+  letter-spacing: var(--track-caps);
+  margin: 0;
+  padding-top: var(--space-5);
+  border-top: 1px dashed var(--color-divider);
+}
+
+@media (max-width: 900px) {
+  .playground { padding: var(--space-8) var(--space-4); }
+  .playground__stage {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  .playground__headline { font-size: clamp(40px, 11vw, 64px); }
+  .playground__readout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

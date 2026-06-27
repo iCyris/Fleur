@@ -1,0 +1,35 @@
+.sticker-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  overflow: hidden;
+  contain: layout style;
+}
+
+.sticker-layer__item {
+  position: absolute;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.sticker-layer__item--falling {
+  animation: sticker-fall var(--fall-duration) var(--fall-delay) linear both;
+}
+
+@keyframes sticker-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(var(--rot-start));
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(var(--fall-distance, 110vh)) translateX(var(--drift-x)) rotate(var(--rot-end));
+    opacity: 0;
+  }
+}

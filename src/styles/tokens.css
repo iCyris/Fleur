@@ -1,0 +1,85 @@
+/* ============================================================
+   Fleur — Endless Summer Night
+   Seed tokens. Patchable by Canvas Nudges. Derived tokens use
+   color-mix() to stay in sync with seeds.
+   ============================================================ */
+
+:root {
+  /* --- Seed surface --- */
+  --seed-bg: #0B0A1E;            /* deep night canvas, never pure black */
+  --seed-bg-elevated: #141330;
+  --seed-fg: #F4ECDC;            /* warm paper ivory */
+  --seed-fg-muted: #9C95B8;
+
+  /* --- Seed palette --- */
+  --seed-lavender: #8B7BE0;      /* night lavender, primary signal */
+  --seed-ocean:    #1F3A8A;      /* deep ocean blue, mid layer dominance */
+  --seed-amber:    #F5B461;      /* warm amber highlight */
+  --seed-neon:     #A6F0A0;      /* muted neon green, UI signal only */
+
+  /* --- Seed metrics --- */
+  --seed-radius: 4px;
+  --seed-radius-paper: 28px;
+  --seed-density: 1;             /* spacing multiplier; 0.85 compact, 1.15 spacious */
+  --seed-motion: 1;               /* motion intensity 0..1 */
+
+  /* --- Derived semantic tokens --- */
+  --color-bg: var(--seed-bg);
+  --color-bg-elevated: var(--seed-bg-elevated);
+  --color-fg: var(--seed-fg);
+  --color-fg-muted: var(--seed-fg-muted);
+  --color-divider: color-mix(in oklab, var(--seed-fg) 14%, transparent);
+  --color-hairline: color-mix(in oklab, var(--seed-fg) 22%, transparent);
+  --color-glass: color-mix(in oklab, var(--seed-bg-elevated) 70%, transparent);
+  --color-glass-strong: color-mix(in oklab, var(--seed-bg-elevated) 85%, transparent);
+  --color-halftone: color-mix(in oklab, var(--seed-lavender) 30%, transparent);
+  --color-signal-fg: var(--seed-neon);
+  --color-accent: var(--seed-amber);
+  --color-mid: var(--seed-ocean);
+  --color-cool: var(--seed-lavender);
+
+  /* --- Hero ambient halo gradient stops --- */
+  --halo-warm: color-mix(in oklab, var(--seed-amber) 36%, transparent);
+  --halo-cool: color-mix(in oklab, var(--seed-lavender) 28%, transparent);
+  --halo-deep: color-mix(in oklab, var(--seed-ocean) 60%, transparent);
+
+  /* --- Typography stacks (no Google Fonts; system + common UI metric matches) --- */
+  --font-display:
+    "Helvetica Neue", "Inter", "Avenir Next", system-ui, -apple-system, "Segoe UI",
+    "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif;
+  --font-body:
+    "Helvetica Neue", "Inter", system-ui, -apple-system, "Segoe UI",
+    "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif;
+  --font-mono:
+    "JetBrains Mono", "SF Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
+    "Menlo", "Consolas", monospace;
+
+  /* --- Fluid type scale --- */
+  --fs-mono: 11px;
+  --fs-small: 13px;
+  --fs-body: clamp(15px, 0.95vw + 13px, 17px);
+  --fs-lead: clamp(22px, 1.6vw + 16px, 30px);
+  --fs-h3: clamp(20px, 1.2vw + 14px, 26px);
+  --fs-h2: clamp(28px, 2vw + 18px, 44px);
+  --fs-h1: clamp(40px, 5vw + 16px, 84px);
+  --fs-display: clamp(72px, 18vw, 280px);
+
+  /* --- Spacing scale (density-aware) --- */
+  --space-1: calc(4px  * var(--seed-density));
+  --space-2: calc(8px  * var(--seed-density));
+  --space-3: calc(12px * var(--seed-density));
+  --space-4: calc(16px * var(--seed-density));
+  --space-5: calc(24px * var(--seed-density));
+  --space-6: calc(32px * var(--seed-density));
+  --space-7: calc(48px * var(--seed-density));
+  --space-8: calc(72px * var(--seed-density));
+  --space-9: calc(120px * var(--seed-density));
+
+  /* --- Tracking --- */
+  --track-display: -0.025em;
+  --track-h1: -0.02em;
+  --track-h2: -0.01em;
+  --track-body: 0;
+  --track-mono: 0.04em;
+  --track-caps: 0.12em;
+}

@@ -1,0 +1,65 @@
+.breathing-light {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  contain: layout style paint;
+  background:
+    radial-gradient(160% 100% at 50% 0%, color-mix(in oklab, var(--seed-ocean) 35%, var(--seed-bg)) 0%, var(--seed-bg) 60%, #06051a 100%);
+}
+
+.breathing-light__halo {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+.breathing-light__halo--warm {
+  top: -22vh;
+  right: -14vw;
+  width: 86vw;
+  height: 86vw;
+  background: radial-gradient(circle at 50% 50%, var(--halo-warm) 0%, transparent 72%);
+  animation: halo-warm 14s ease-in-out infinite;
+}
+
+.breathing-light__halo--cool {
+  bottom: -24vh;
+  left: -16vw;
+  width: 92vw;
+  height: 92vw;
+  background: radial-gradient(circle at 50% 50%, var(--halo-cool) 0%, transparent 72%);
+  animation: halo-cool 18s ease-in-out 1.5s infinite;
+}
+
+.breathing-light__halo--deep {
+  top: 26vh;
+  left: 26vw;
+  width: 64vw;
+  height: 64vw;
+  background: radial-gradient(circle at 50% 50%, var(--halo-deep) 0%, transparent 76%);
+  animation: halo-deep 22s ease-in-out 3s infinite;
+}
+
+.breathing-light--static .breathing-light__halo {
+  animation: none;
+}
+
+@keyframes halo-warm {
+  0%, 100% { transform: scale(1);    opacity: 0.9;  }
+  33%      { transform: scale(1.08); opacity: 1;    }
+  66%      { transform: scale(0.96); opacity: 0.85; }
+}
+
+@keyframes halo-cool {
+  0%, 100% { transform: scale(1);    opacity: 0.8;  }
+  33%      { transform: scale(1.12); opacity: 0.95; }
+  66%      { transform: scale(1.02); opacity: 0.75; }
+}
+
+@keyframes halo-deep {
+  0%, 100% { opacity: 0.6;  }
+  33%      { opacity: 0.85; }
+  66%      { opacity: 0.65; }
+}

@@ -1,0 +1,12 @@
+.grain-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  image-rendering: pixelated;
+  will-change: transform;
+}
