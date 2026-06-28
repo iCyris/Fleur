@@ -36,7 +36,7 @@ const variantMap = new Map<string, StickerVariant>(
   STICKER_VARIANTS.map(v => [v.id, v]),
 )
 
-const MAX_STICKERS = 20
+const MAX_STICKERS = 50
 const OPENING_COUNT = 5
 const OPENING_DELAY_MS = 800
 const DRIP_MIN_MS = 3000
@@ -77,10 +77,26 @@ function createSticker(
 export default function StickerLayer({ spawnTargetRef, onCountChange }: StickerLayerProps) {
   const reduced = useReducedMotion()
   const [stickers, setStickers] = useState<FallingSticker[]>([])
+  const [loadedIds, setLoadedIds] = useState<Set<number>>(new Set())
   const dripTimer = useRef<ReturnType<typeof setTimeout>>()
 
   const removeSticker = useCallback((id: number) => {
     setStickers(prev => prev.filter(s => s.id !== id))
+    setLoadedIds(prev => {
+      if (!prev.has(id)) return prev
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
+  }, [])
+
+  const markLoaded = useCallback((id: number) => {
+    setLoadedIds(prev => {
+      if (prev.has(id)) return prev
+      const next = new Set(prev)
+      next.add(id)
+      return next
+    })
   }, [])
 
   useEffect(() => {
@@ -156,10 +172,11 @@ export default function StickerLayer({ spawnTargetRef, onCountChange }: StickerL
         const variant = variantMap.get(s.variantId)!
         const w = variant.size[0] * s.scale
         const h = variant.size[1] * s.scale
+        const imageReady = loadedIds.has(s.id)
         return (
           <div
             key={s.id}
-            className="sticker-layer__item sticker-layer__item--falling"
+            className={`sticker-layer__item${imageReady ? ' sticker-layer__item--falling' : ''}`}
             style={{
               left: `${s.x}%`,
               top: s.topStart,
@@ -174,7 +191,10 @@ export default function StickerLayer({ spawnTargetRef, onCountChange }: StickerL
             } as React.CSSProperties}
             onAnimationEnd={() => removeSticker(s.id)}
           >
-            {variant.render('')}
+            {variant.render('', {
+              onLoad: () => markLoaded(s.id),
+              onError: () => removeSticker(s.id),
+            })}
           </div>
         )
       })}

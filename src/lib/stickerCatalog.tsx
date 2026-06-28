@@ -13,11 +13,16 @@ export type StickerVariantId =
   | 'tag'
   | 'moon';
 
+export interface StickerRenderCallbacks {
+  onLoad?: () => void;
+  onError?: () => void;
+}
+
 export interface StickerVariant {
   id: StickerVariantId;
   size: [number, number];
   spinRange: [number, number];
-  render: (color: string) => ReactNode;
+  render: (color: string, callbacks?: StickerRenderCallbacks) => ReactNode;
 }
 
 const lavender = 'var(--seed-lavender)';
@@ -87,7 +92,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     id: 'afu',
     size: [60, 108],
     spinRange: [-10, 10],
-    render: () => (
+    render: (_, callbacks) => (
       <img
         src={`${import.meta.env.BASE_URL}stickers/Afu.png`}
         alt=''
@@ -95,7 +100,8 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
-        onError={hideOnError}
+        onLoad={callbacks?.onLoad}
+        onError={(e) => { hideOnError(e); callbacks?.onError?.(); }}
       />
     ),
   },
@@ -103,7 +109,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     id: 'mon',
     size: [56, 100],
     spinRange: [-12, 12],
-    render: () => (
+    render: (_, callbacks) => (
       <img
         src={`${import.meta.env.BASE_URL}stickers/Mon.png`}
         alt=''
@@ -111,7 +117,8 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
-        onError={hideOnError}
+        onLoad={callbacks?.onLoad}
+        onError={(e) => { hideOnError(e); callbacks?.onError?.(); }}
       />
     ),
   },
@@ -119,7 +126,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     id: 'yuzi',
     size: [60, 108],
     spinRange: [-10, 10],
-    render: () => (
+    render: (_, callbacks) => (
       <img
         src={`${import.meta.env.BASE_URL}stickers/Yuzi.png`}
         alt=''
@@ -127,7 +134,8 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
-        onError={hideOnError}
+        onLoad={callbacks?.onLoad}
+        onError={(e) => { hideOnError(e); callbacks?.onError?.(); }}
       />
     ),
   },
@@ -135,7 +143,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     id: 'zell',
     size: [58, 104],
     spinRange: [-11, 11],
-    render: () => (
+    render: (_, callbacks) => (
       <img
         src={`${import.meta.env.BASE_URL}stickers/Zell.png`}
         alt=''
@@ -143,7 +151,8 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
-        onError={hideOnError}
+        onLoad={callbacks?.onLoad}
+        onError={(e) => { hideOnError(e); callbacks?.onError?.(); }}
       />
     ),
   },
