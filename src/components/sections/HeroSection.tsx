@@ -135,14 +135,17 @@ export default function HeroSection() {
   const glowX = useMotionValue(-620);
   const glowY = useMotionValue(-620);
   useEffect(() => {
-    if (!hasHover || reduced) return;
+    if (reduced) return;
     let pending = false;
     let lastX = 0;
     let lastY = 0;
+
     const apply = () => {
       pending = false;
-      glowX.set(lastX - 310);
-      glowY.set(lastY - 310);
+      if (hasHover) {
+        glowX.set(lastX - 310);
+        glowY.set(lastY - 310);
+      }
       if (!heroVisible.current) return;
       if (centersDirty.current) {
         recalcCenters();
@@ -172,15 +175,63 @@ export default function HeroSection() {
         rots[i].set((dx / 80) * t * -1.2);
       }
     };
-    const onMove = (e: PointerEvent) => {
-      lastX = e.clientX;
-      lastY = e.clientY;
+
+    const update = (cx: number, cy: number) => {
+      lastX = cx;
+      lastY = cy;
       if (pending) return;
       pending = true;
       requestAnimationFrame(apply);
     };
-    window.addEventListener('pointermove', onMove, { passive: true });
-    return () => window.removeEventListener('pointermove', onMove);
+
+    const resetLetters = () => {
+      const xs = letterXsRef.current;
+      const ys = letterYsRef.current;
+      const rots = letterRotsRef.current;
+      for (let i = 0; i < LETTER_COUNT; i++) {
+        xs[i].set(0);
+        ys[i].set(0);
+        rots[i].set(0);
+      }
+    };
+
+    const onPointerMove = (e: PointerEvent) => update(e.clientX, e.clientY);
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+    if (!hasHover) {
+      // Mobile: touchmove keeps effect alive during scroll,
+      // reset letters to center when finger lifts or gesture is cancelled.
+      const onTouchMove = (e: TouchEvent) => {
+        if (e.touches.length > 0) {
+          update(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+      const onTouchEnd = () => resetLetters();
+      const onTouchCancel = () => resetLetters();
+      const onPointerUp = () => resetLetters();
+      const onPointerCancel = () => resetLetters();
+
+      window.addEventListener('touchmove', onTouchMove, { passive: true });
+      window.addEventListener('touchend', onTouchEnd);
+      window.addEventListener('touchcancel', onTouchCancel);
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerCancel);
+
+      return () => {
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('touchend', onTouchEnd);
+        window.removeEventListener('touchcancel', onTouchCancel);
+        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('pointercancel', onPointerCancel);
+      };
+    }
+
+    // Desktop: pointermove alone is sufficient, glow follows cursor.
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove);
+    };
   }, [hasHover, reduced, glowX, glowY]);
 
   const { scrollYProgress } = useScroll({
@@ -225,7 +276,7 @@ export default function HeroSection() {
               x={letterXSprings[i]}
               y={letterYSprings[i]}
               rot={letterRotSprings[i]}
-              reduced={reduced || !hasHover}
+              reduced={reduced}
               mobile={isMobile}
             />
           ))}
