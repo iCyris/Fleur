@@ -36,6 +36,10 @@ const photoStickerImgStyle: CSSProperties = {
   filter: 'url(#sticker-cut) drop-shadow(0 6px 12px rgba(0,0,0,0.42))',
 };
 
+function hideOnError(e: React.SyntheticEvent<HTMLImageElement>) {
+  (e.currentTarget as HTMLImageElement).style.display = 'none';
+}
+
 export function StickerOutlineDefs() {
   return (
     <svg
@@ -91,6 +95,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
+        onError={hideOnError}
       />
     ),
   },
@@ -106,6 +111,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
+        onError={hideOnError}
       />
     ),
   },
@@ -121,6 +127,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
+        onError={hideOnError}
       />
     ),
   },
@@ -136,6 +143,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
         loading='lazy'
         decoding='async'
         style={photoStickerImgStyle}
+        onError={hideOnError}
       />
     ),
   },

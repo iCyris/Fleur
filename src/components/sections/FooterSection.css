@@ -2,8 +2,7 @@
   position: relative;
   padding: var(--space-9) clamp(20px, 5vw, 72px) var(--space-7);
   z-index: 2;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
+  /* content-visibility removed: caused layout shift/jitter on scroll-entry */
 }
 
 .footer__terminal {

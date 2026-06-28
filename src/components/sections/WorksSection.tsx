@@ -173,24 +173,28 @@ function WorkCard({
       <motion.div
         className='works__caption'
         style={reduced ? undefined : { y: captionY }}
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-        transition={{ duration: 0.9, delay: 0.1, ease: [0.2, 0.6, 0.2, 1] }}
       >
-        <div className='works__caption-meta mono-caps'>
-          <span>{work.year}</span>
-          <span className='works__caption-dot' aria-hidden />
-          <span>{work.medium}</span>
-        </div>
-        <h3 className='works__title'>{work.title}</h3>
-        <ul className='works__blurb'>
-          {work.items.map((item) => (
-            <li key={item.term}>
-              <strong>{item.term}:</strong> {item.desc}
-            </li>
-          ))}
-        </ul>
+        <motion.div
+          className='works__caption-inner'
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.2, 0.6, 0.2, 1] }}
+        >
+          <div className='works__caption-meta mono-caps'>
+            <span>{work.year}</span>
+            <span className='works__caption-dot' aria-hidden />
+            <span>{work.medium}</span>
+          </div>
+          <h3 className='works__title'>{work.title}</h3>
+          <ul className='works__blurb'>
+            {work.items.map((item) => (
+              <li key={item.term}>
+                <strong>{item.term}:</strong> {item.desc}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </motion.div>
     </li>
   );

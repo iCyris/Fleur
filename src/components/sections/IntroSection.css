@@ -2,8 +2,7 @@
   position: relative;
   padding: var(--space-9) clamp(20px, 5vw, 72px);
   z-index: 2;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
+  /* content-visibility removed: caused layout shift/jitter on scroll-entry */
 }
 
 .intro__grid {

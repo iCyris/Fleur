@@ -3,8 +3,7 @@
   padding: var(--space-9) clamp(20px, 5vw, 72px);
   z-index: 2;
   min-height: 90vh;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
+  /* content-visibility removed: caused layout shift/jitter on scroll-entry */
   background-color: color-mix(in oklab, var(--seed-bg) 96%, var(--seed-ocean));
   cursor: crosshair;
 }

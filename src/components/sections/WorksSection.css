@@ -2,8 +2,7 @@
   position: relative;
   padding: var(--space-9) clamp(20px, 5vw, 72px);
   z-index: 2;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 2400px;
+  /* content-visibility removed: caused layout shift/jitter on scroll-entry */
 }
 
 .works__pagination {
@@ -79,10 +78,13 @@
 }
 
 .works__caption {
+  max-width: 44ch;
+}
+
+.works__caption-inner {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  max-width: 44ch;
 }
 
 .works__caption-meta {
