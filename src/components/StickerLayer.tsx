@@ -26,8 +26,10 @@ interface FallingSticker {
   scale: number
 }
 
+const PHOTO_STICKER_IDS = ['afu', 'mon', 'yuzi', 'zell']
+
 const FALLING_VARIANTS = STICKER_VARIANTS.filter(
-  v => v.id !== 'slash' && v.id !== 'tag',
+  v => PHOTO_STICKER_IDS.includes(v.id),
 )
 
 const variantMap = new Map<string, StickerVariant>(
@@ -35,10 +37,10 @@ const variantMap = new Map<string, StickerVariant>(
 )
 
 const MAX_STICKERS = 15
-const OPENING_COUNT = 6
+const OPENING_COUNT = 5
 const OPENING_DELAY_MS = 800
 const DRIP_MIN_MS = 3000
-const DRIP_MAX_MS = 6000
+const DRIP_MAX_MS = 9000
 
 function rand(min: number, max: number) {
   return min + Math.random() * (max - min)
