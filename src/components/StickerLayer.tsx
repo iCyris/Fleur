@@ -36,7 +36,7 @@ const variantMap = new Map<string, StickerVariant>(
   STICKER_VARIANTS.map(v => [v.id, v]),
 )
 
-const MAX_STICKERS = 15
+const MAX_STICKERS = 20
 const OPENING_COUNT = 5
 const OPENING_DELAY_MS = 800
 const DRIP_MIN_MS = 3000
