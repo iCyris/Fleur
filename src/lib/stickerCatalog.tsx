@@ -94,7 +94,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     spinRange: [-10, 10],
     render: (_, callbacks) => (
       <img
-        src={`${import.meta.env.BASE_URL}stickers/Afu.png`}
+        src="https://cdn.jsdelivr.net/npm/cyris/fleur/stickers/Afu.png"
         alt=''
         draggable={false}
         loading='lazy'
@@ -111,7 +111,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     spinRange: [-12, 12],
     render: (_, callbacks) => (
       <img
-        src={`${import.meta.env.BASE_URL}stickers/Mon.png`}
+        src="https://cdn.jsdelivr.net/npm/cyris/fleur/stickers/Mon.png"
         alt=''
         draggable={false}
         loading='lazy'
@@ -128,7 +128,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     spinRange: [-10, 10],
     render: (_, callbacks) => (
       <img
-        src={`${import.meta.env.BASE_URL}stickers/Yuzi.png`}
+        src="https://cdn.jsdelivr.net/npm/cyris/fleur/stickers/Yuzi.png"
         alt=''
         draggable={false}
         loading='lazy'
@@ -145,7 +145,7 @@ export const STICKER_VARIANTS: StickerVariant[] = [
     spinRange: [-11, 11],
     render: (_, callbacks) => (
       <img
-        src={`${import.meta.env.BASE_URL}stickers/Zell.png`}
+        src="https://cdn.jsdelivr.net/npm/cyris/fleur/stickers/Zell.png"
         alt=''
         draggable={false}
         loading='lazy'
