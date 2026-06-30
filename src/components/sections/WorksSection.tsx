@@ -94,7 +94,7 @@ export default function WorksSection() {
       <SectionLabel index='02' title='Good AI Product' meta='three pillars' />
 
       <div className='works__pagination mono'>
-        <span>CASE</span>
+        <span>CHORD</span>
         <span>·</span>
         <motion.span className='works__pagination-count'>
           01 ↔ 0{WORKS.length}
