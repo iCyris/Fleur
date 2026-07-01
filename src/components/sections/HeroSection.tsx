@@ -62,10 +62,11 @@ function MagneticLetter({
 const LETTER_COUNT = TITLE.length;
 
 interface HeroSectionProps {
-  onOpenPortfolio?: () => void;
+  onTogglePortfolio?: () => void;
+  portfolioOpen?: boolean;
 }
 
-export default function HeroSection({ onOpenPortfolio }: HeroSectionProps) {
+export default function HeroSection({ onTogglePortfolio, portfolioOpen }: HeroSectionProps) {
   const reduced = useReducedMotion();
   const { hasHover, isMobile } = useViewportSize();
   const ref = useRef<HTMLElement>(null);
@@ -263,12 +264,15 @@ export default function HeroSection({ onOpenPortfolio }: HeroSectionProps) {
         <span className='hero__topbar-dot' aria-hidden />
         <span>CULTIVATED BY CYRIS</span>
 
-        {onOpenPortfolio && (
+        {onTogglePortfolio && (
           <button
-            className='hero__topbar-portfolio'
-            onClick={onOpenPortfolio}
+            className={
+              'hero__topbar-portfolio' +
+              (portfolioOpen ? ' hero__topbar-portfolio--open' : '')
+            }
+            onClick={onTogglePortfolio}
             type='button'
-            aria-label='Open portfolio'
+            aria-label={portfolioOpen ? 'Close portfolio' : 'Open portfolio'}
           >
             <span className='hero__topbar-portfolio-line' />
             <span className='hero__topbar-portfolio-line' />

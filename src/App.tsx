@@ -33,7 +33,7 @@ export default function App() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
       >
-        <HeroSection onOpenPortfolio={() => setPortfolioOpen(true)} />
+        <HeroSection onTogglePortfolio={() => setPortfolioOpen(prev => !prev)} portfolioOpen={portfolioOpen} />
         <IntroSection />
         <WorksSection />
         <PlaygroundSection ref={playgroundRef} stickerCount={stickerCount} />

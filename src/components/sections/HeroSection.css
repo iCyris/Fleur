@@ -231,7 +231,7 @@
 .hero__topbar-portfolio-line:nth-child(2) { width: 24px; }
 .hero__topbar-portfolio-line:nth-child(3) { width: 10px; }
 
-/* ---- Hover ---- */
+/* ---- Hover (desktop only) ---- */
 /*
  * Widths  24 : 20 : 16  →  6 : 5 : 4  (major-triad proportion)
  * Centers at x = w/2 + translateX:
@@ -240,22 +240,46 @@
  *   bot     8 + 8  = 16 px
  * Centers evenly stepped by 2 px → anchored yet staggered.
  */
-.hero__topbar-portfolio:hover .hero__topbar-portfolio-line {
+@media (hover: hover) {
+  .hero__topbar-portfolio:hover .hero__topbar-portfolio-line {
+    background: var(--color-fg);
+  }
+
+  .hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(1) {
+    width: 24px;
+    transform: translateX(0);
+  }
+
+  .hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(2) {
+    width: 20px;
+    transform: translateX(4px);
+    transition-delay: 0.05s;
+  }
+
+  .hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(3) {
+    width: 16px;
+    transform: translateX(8px);
+    transition-delay: 0.1s;
+  }
+}
+
+/* ---- Open state (active while modal is visible) ---- */
+.hero__topbar-portfolio--open .hero__topbar-portfolio-line {
   background: var(--color-fg);
 }
 
-.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(1) {
+.hero__topbar-portfolio--open .hero__topbar-portfolio-line:nth-child(1) {
   width: 24px;
   transform: translateX(0);
 }
 
-.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(2) {
+.hero__topbar-portfolio--open .hero__topbar-portfolio-line:nth-child(2) {
   width: 20px;
   transform: translateX(4px);
   transition-delay: 0.05s;
 }
 
-.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(3) {
+.hero__topbar-portfolio--open .hero__topbar-portfolio-line:nth-child(3) {
   width: 16px;
   transform: translateX(8px);
   transition-delay: 0.1s;
