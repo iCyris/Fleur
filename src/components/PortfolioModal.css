@@ -101,7 +101,7 @@
 }
 
 .portfolio__close:hover {
-  color: var(--seed-lavender);
+  color: var(--seed-fg);
 }
 
 .portfolio__close:hover svg {
