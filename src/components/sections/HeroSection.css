@@ -198,6 +198,72 @@
   animation: scroll-bounce 2.4s ease-in-out infinite;
 }
 
+/* --- Portfolio trigger (three-line icon) --- */
+.hero__topbar-portfolio {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 10px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+
+.hero__topbar-portfolio-line {
+  display: block;
+  height: 1.5px;
+  border-radius: 1px;
+  background: color-mix(in oklab, var(--color-fg) 45%, transparent);
+  transition:
+    width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.28s,
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Default: casual menu icon, all left-aligned */
+.hero__topbar-portfolio-line:nth-child(1) { width: 14px; }
+.hero__topbar-portfolio-line:nth-child(2) { width: 24px; }
+.hero__topbar-portfolio-line:nth-child(3) { width: 10px; }
+
+/* ---- Hover ---- */
+/*
+ * Widths  24 : 20 : 16  →  6 : 5 : 4  (major-triad proportion)
+ * Centers at x = w/2 + translateX:
+ *   top    12 + 0  = 12 px
+ *   mid    10 + 4  = 14 px
+ *   bot     8 + 8  = 16 px
+ * Centers evenly stepped by 2 px → anchored yet staggered.
+ */
+.hero__topbar-portfolio:hover .hero__topbar-portfolio-line {
+  background: var(--color-fg);
+}
+
+.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(1) {
+  width: 24px;
+  transform: translateX(0);
+}
+
+.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(2) {
+  width: 20px;
+  transform: translateX(4px);
+  transition-delay: 0.05s;
+}
+
+.hero__topbar-portfolio:hover .hero__topbar-portfolio-line:nth-child(3) {
+  width: 16px;
+  transform: translateX(8px);
+  transition-delay: 0.1s;
+}
+
+.hero__topbar-portfolio:focus-visible {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero__scroll-bounce { animation: none; }
   .hero__title-shimmer { animation: none; opacity: 0; }

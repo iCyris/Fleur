@@ -1,0 +1,344 @@
+/* ============================================================
+   PortfolioModal — archive drawer overlay
+   ============================================================ */
+
+/* --- Root --- */
+.portfolio__root {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+/* --- Backdrop --- */
+.portfolio__backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklab, var(--seed-bg) 72%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* --- Panel --- */
+.portfolio__panel {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100svh - 48px);
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in oklab, var(--seed-bg-elevated) 88%, transparent);
+  border: 1px solid var(--color-hairline);
+  border-radius: 8px;
+  box-shadow:
+    0 40px 80px -30px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px color-mix(in oklab, var(--seed-fg) 4%, transparent);
+  overflow: hidden;
+}
+
+/* Faint dot-matrix texture — barely there */
+.portfolio__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle cx='1.5' cy='1.5' r='0.6' fill='%23F4ECDC' opacity='0.5'/></svg>");
+  background-size: 12px 12px;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Header --- */
+.portfolio__header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+
+.portfolio__header-label {
+  color: color-mix(in oklab, var(--color-fg) 65%, transparent);
+  font-size: 10px;
+  letter-spacing: var(--track-caps);
+}
+
+.portfolio__header-sep {
+  color: color-mix(in oklab, var(--color-fg) 25%, transparent);
+  margin: 0 2px;
+}
+
+/* --- Close button --- */
+.portfolio__close {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--color-fg-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.22s;
+}
+
+/* SVG rotates on hover */
+.portfolio__close svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portfolio__close:hover {
+  color: var(--seed-amber);
+}
+
+.portfolio__close:hover svg {
+  transform: rotate(90deg);
+}
+
+.portfolio__close:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--seed-lavender) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* --- Body --- */
+.portfolio__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-6) var(--space-5);
+}
+
+/* --- Title --- */
+.portfolio__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--fs-h2);
+  letter-spacing: var(--track-h2);
+  color: var(--color-fg);
+  margin: 0 0 var(--space-6);
+}
+
+/* --- Grid --- */
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+/* --- Card --- */
+.portfolio__card {
+  position: relative;
+  padding: var(--space-5);
+  background: color-mix(in oklab, var(--seed-bg) 55%, transparent);
+  border: 1px solid var(--color-hairline);
+  border-radius: 6px;
+  transition: border-color 0.28s, box-shadow 0.28s;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.portfolio__card:hover {
+  border-color: color-mix(in oklab, var(--seed-fg) 28%, transparent);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 28px -10px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px color-mix(in oklab, var(--seed-fg) 5%, transparent);
+}
+
+/* --- Card top bar --- */
+.portfolio__card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio__card-index {
+  color: var(--color-fg);
+  font-size: 10px;
+  letter-spacing: var(--track-caps);
+}
+
+.portfolio__card-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-signal-fg);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--color-signal-fg) 55%, transparent);
+}
+
+/* --- Card rule --- */
+.portfolio__card-rule {
+  height: 1px;
+  background: var(--color-divider);
+  margin-top: var(--space-2);
+}
+
+/* --- Card name --- */
+.portfolio__card-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  letter-spacing: -0.01em;
+  color: var(--color-fg);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* --- Card description --- */
+.portfolio__card-desc {
+  color: color-mix(in oklab, var(--color-fg) 72%, transparent);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+/* --- Tags --- */
+.portfolio__card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.portfolio__card-tag {
+  padding: 2px 8px;
+  border: 1px solid var(--color-divider);
+  border-radius: 3px;
+  font-size: 10px;
+  color: var(--color-fg-muted);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  background: color-mix(in oklab, var(--seed-bg-elevated) 40%, transparent);
+}
+
+/* --- Links --- */
+.portfolio__card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.portfolio__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--seed-radius);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--track-mono);
+  color: var(--color-fg);
+  text-decoration: none;
+  background: color-mix(in oklab, var(--seed-bg-elevated) 50%, transparent);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.portfolio__link:hover {
+  border-color: color-mix(in oklab, var(--seed-lavender) 50%, transparent);
+  background: color-mix(in oklab, var(--seed-lavender) 10%, var(--seed-bg-elevated));
+  color: var(--color-fg);
+}
+
+.portfolio__link:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--seed-amber) 60%, transparent);
+  outline-offset: 2px;
+}
+
+.portfolio__link-arrow {
+  opacity: 0.45;
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.portfolio__link:hover .portfolio__link-arrow {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
+/* --- Footer --- */
+.portfolio__footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--color-divider);
+  color: color-mix(in oklab, var(--color-fg) 50%, transparent);
+  font-size: 11px;
+  letter-spacing: var(--track-mono);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .portfolio__root {
+    padding: var(--space-3);
+  }
+
+  .portfolio__panel {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100svh - 24px);
+    border-radius: 6px;
+  }
+
+  .portfolio__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio__header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .portfolio__header-label {
+    font-size: 9px;
+  }
+
+  .portfolio__body {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .portfolio__title {
+    font-size: clamp(24px, 6vw, 36px);
+    margin-bottom: var(--space-5);
+  }
+
+  .portfolio__card {
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .portfolio__card-name {
+    font-size: clamp(18px, 4.5vw, 24px);
+  }
+
+  .portfolio__card-desc {
+    font-size: 12px;
+  }
+
+  .portfolio__footer {
+    padding: var(--space-3) var(--space-4);
+    font-size: 10px;
+  }
+}
+

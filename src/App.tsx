@@ -8,11 +8,13 @@ import IntroSection from './components/sections/IntroSection'
 import WorksSection from './components/sections/WorksSection'
 import PlaygroundSection from './components/sections/PlaygroundSection'
 import FooterSection from './components/sections/FooterSection'
+import PortfolioModal from './components/PortfolioModal'
 import './App.css'
 
 export default function App() {
   const playgroundRef = useRef<HTMLElement>(null)
   const [stickerCount, setStickerCount] = useState(0)
+  const [portfolioOpen, setPortfolioOpen] = useState(false)
 
   const [bootDone, setBootDone] = useState(false)
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function App() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
       >
-        <HeroSection />
+        <HeroSection onOpenPortfolio={() => setPortfolioOpen(true)} />
         <IntroSection />
         <WorksSection />
         <PlaygroundSection ref={playgroundRef} stickerCount={stickerCount} />
@@ -39,6 +41,7 @@ export default function App() {
       </motion.div>
 
       <GrainLayer />
+      <PortfolioModal open={portfolioOpen} onClose={() => setPortfolioOpen(false)} />
     </div>
   )
 }

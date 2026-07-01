@@ -61,7 +61,11 @@ function MagneticLetter({
 
 const LETTER_COUNT = TITLE.length;
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  onOpenPortfolio?: () => void;
+}
+
+export default function HeroSection({ onOpenPortfolio }: HeroSectionProps) {
   const reduced = useReducedMotion();
   const { hasHover, isMobile } = useViewportSize();
   const ref = useRef<HTMLElement>(null);
@@ -258,6 +262,19 @@ export default function HeroSection() {
         <span>FLEUR</span>
         <span className='hero__topbar-dot' aria-hidden />
         <span>CULTIVATED BY CYRIS</span>
+
+        {onOpenPortfolio && (
+          <button
+            className='hero__topbar-portfolio'
+            onClick={onOpenPortfolio}
+            type='button'
+            aria-label='Open portfolio'
+          >
+            <span className='hero__topbar-portfolio-line' />
+            <span className='hero__topbar-portfolio-line' />
+            <span className='hero__topbar-portfolio-line' />
+          </button>
+        )}
       </div>
 
       <motion.div
