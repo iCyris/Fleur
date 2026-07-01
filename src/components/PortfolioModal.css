@@ -17,9 +17,9 @@
 .portfolio__backdrop {
   position: absolute;
   inset: 0;
-  background: color-mix(in oklab, var(--seed-bg) 72%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--seed-bg) 82%, transparent);
+  backdrop-filter: blur(12px) saturate(0.6);
+  -webkit-backdrop-filter: blur(12px) saturate(0.6);
 }
 
 /* --- Panel --- */
@@ -31,23 +31,25 @@
   max-height: calc(100svh - 48px);
   display: flex;
   flex-direction: column;
-  background: color-mix(in oklab, var(--seed-bg-elevated) 88%, transparent);
-  border: 1px solid var(--color-hairline);
-  border-radius: 8px;
+  background: color-mix(in oklab, var(--seed-bg-elevated) 92%, transparent);
+  border: 1px solid color-mix(in oklab, var(--seed-fg) 10%, transparent);
+  border-radius: 12px;
   box-shadow:
-    0 40px 80px -30px rgba(0, 0, 0, 0.65),
-    inset 0 0 0 1px color-mix(in oklab, var(--seed-fg) 4%, transparent);
+    0 40px 80px -30px rgba(0, 0, 0, 0.7),
+    0 0 0 1px color-mix(in oklab, var(--seed-lavender) 8%, transparent),
+    inset 0 0 120px -40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 color-mix(in oklab, var(--seed-fg) 4%, transparent);
   overflow: hidden;
 }
 
-/* Faint dot-matrix texture — barely there */
+/* Subtle grain-like speckle — cool starlight, not warm fabric dots */
 .portfolio__panel::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle cx='1.5' cy='1.5' r='0.6' fill='%23F4ECDC' opacity='0.5'/></svg>");
-  background-size: 12px 12px;
-  opacity: 0.09;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><circle cx='2' cy='3' r='0.5' fill='%238B7BE0' opacity='0.35'/><circle cx='10' cy='7' r='0.4' fill='%23A6F0A0' opacity='0.18'/><circle cx='6' cy='13' r='0.55' fill='%238B7BE0' opacity='0.28'/></svg>");
+  background-size: 16px 16px;
+  opacity: 0.07;
   pointer-events: none;
   z-index: 0;
 }
@@ -60,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-3) var(--space-5);
-  border-bottom: 1px solid var(--color-divider);
+  border-bottom: 1px solid color-mix(in oklab, var(--seed-fg) 8%, transparent);
   flex-shrink: 0;
 }
 
@@ -99,7 +101,7 @@
 }
 
 .portfolio__close:hover {
-  color: var(--seed-amber);
+  color: var(--seed-lavender);
 }
 
 .portfolio__close:hover svg {
@@ -142,21 +144,22 @@
 .portfolio__card {
   position: relative;
   padding: var(--space-5);
-  background: color-mix(in oklab, var(--seed-bg) 55%, transparent);
-  border: 1px solid var(--color-hairline);
-  border-radius: 6px;
-  transition: border-color 0.28s, box-shadow 0.28s;
+  background: color-mix(in oklab, var(--seed-bg) 40%, transparent);
+  border: 1px solid color-mix(in oklab, var(--seed-fg) 10%, transparent);
+  border-radius: 8px;
+  transition: border-color 0.32s, box-shadow 0.32s, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
 .portfolio__card:hover {
-  border-color: color-mix(in oklab, var(--seed-fg) 28%, transparent);
+  border-color: color-mix(in oklab, var(--seed-lavender) 40%, transparent);
   transform: translateY(-2px);
   box-shadow:
-    0 8px 28px -10px rgba(0, 0, 0, 0.5),
-    inset 0 0 0 1px color-mix(in oklab, var(--seed-fg) 5%, transparent);
+    0 12px 40px -16px rgba(0, 0, 0, 0.55),
+    0 0 0 1px color-mix(in oklab, var(--seed-lavender) 18%, transparent),
+    inset 0 0 40px -10px color-mix(in oklab, var(--seed-lavender) 8%, transparent);
 }
 
 /* --- Card top bar --- */
@@ -176,14 +179,14 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--color-signal-fg);
-  box-shadow: 0 0 8px color-mix(in oklab, var(--color-signal-fg) 55%, transparent);
+  background: var(--seed-lavender);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--seed-lavender) 40%, transparent);
 }
 
 /* --- Card rule --- */
 .portfolio__card-rule {
   height: 1px;
-  background: var(--color-divider);
+  background: color-mix(in oklab, var(--seed-fg) 8%, transparent);
   margin-top: var(--space-2);
 }
 
@@ -216,13 +219,13 @@
 
 .portfolio__card-tag {
   padding: 2px 8px;
-  border: 1px solid var(--color-divider);
+  border: 1px solid color-mix(in oklab, var(--seed-fg) 12%, transparent);
   border-radius: 3px;
   font-size: 10px;
   color: var(--color-fg-muted);
   letter-spacing: 0.02em;
   text-transform: lowercase;
-  background: color-mix(in oklab, var(--seed-bg-elevated) 40%, transparent);
+  background: color-mix(in oklab, var(--seed-bg) 35%, transparent);
 }
 
 /* --- Links --- */
@@ -251,8 +254,8 @@
 }
 
 .portfolio__link:hover {
-  border-color: color-mix(in oklab, var(--seed-lavender) 50%, transparent);
-  background: color-mix(in oklab, var(--seed-lavender) 10%, var(--seed-bg-elevated));
+  border-color: color-mix(in oklab, var(--seed-fg) 35%, transparent);
+  background: color-mix(in oklab, var(--seed-fg) 6%, var(--seed-bg-elevated));
   color: var(--color-fg);
 }
 
@@ -280,7 +283,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-5);
-  border-top: 1px solid var(--color-divider);
+  border-top: 1px solid color-mix(in oklab, var(--seed-fg) 8%, transparent);
   color: color-mix(in oklab, var(--color-fg) 50%, transparent);
   font-size: 11px;
   letter-spacing: var(--track-mono);

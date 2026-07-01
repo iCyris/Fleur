@@ -72,6 +72,7 @@
   text-align: center;
   -webkit-text-stroke: 0.5px color-mix(in oklab, var(--seed-fg) 30%, transparent);
   contain: layout style;
+  user-select: none;
 }
 
 .hero__title::before {
