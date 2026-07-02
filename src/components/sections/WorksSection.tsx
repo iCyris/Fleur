@@ -433,7 +433,6 @@ function PosterNightGarden() {
         <circle cx='700' cy='476' r='3' />
       </g>
       <circle cx='640' cy='120' r='36' fill='var(--seed-amber)' />
-      <circle cx='628' cy='110' r='6' fill='var(--seed-bg)' opacity='0.35' />
       <g fill='var(--seed-fg)' opacity='0.7'>
         <circle cx='100' cy='110' r='1.4' />
         <circle cx='220' cy='80' r='1.2' />
