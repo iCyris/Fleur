@@ -292,6 +292,48 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
                           </svg>
                         </a>
                       )}
+
+                      {project.extraUrl && (
+                        <a
+                          href={project.extraUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="portfolio__link"
+                          aria-label={`Open ${project.name} ${project.extraLabel || 'extra link'}`}
+                        >
+                          {/* Book icon */}
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+                          </svg>
+                          <span>{project.extraLabel || 'Extra'}</span>
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                            className="portfolio__link-arrow"
+                          >
+                            <line x1="7" y1="17" x2="17" y2="7" />
+                            <polyline points="7 7 17 7 17 17" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                   </motion.div>
                 ))}

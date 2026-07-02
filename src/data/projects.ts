@@ -6,6 +6,10 @@ export interface Project {
   githubUrl: string;
   /** Optional showcase / demo / website link. Only rendered when present. */
   showcaseUrl?: string;
+  /** Optional extra / companion link. Only rendered when present. */
+  extraUrl?: string;
+  /** Label for the extra link (required when extraUrl is set). */
+  extraLabel?: string;
   tags: string[];
 }
 
@@ -27,6 +31,8 @@ export const projects: Project[] = [
       'Report layer for AI analysis. It turns research notes, codebase readings, technical explanations, strategy judgments, and agent-authored findings into polished single-page HTML reading reports with editorial typography and clear evidence structure.',
     githubUrl: 'https://github.com/iCyris/Iris',
     showcaseUrl: 'https://iris.cyris.moe/',
+    extraUrl: 'https://iris-shelf.cyris.moe/',
+    extraLabel: 'Shelf',
     tags: ['reports', 'analysis', 'editorial'],
   },
 ];
