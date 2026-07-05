@@ -35,4 +35,13 @@ export const projects: Project[] = [
     extraLabel: 'Shelf',
     tags: ['reports', 'analysis', 'editorial'],
   },
+  {
+    id: 'roselle',
+    index: 'N°003',
+    name: 'Roselle',
+    description:
+      'Restores image-born graphics into real, editable SVG assets. It turns PNG, JPG, and WebP files into vector geometry and pairs each conversion with structured diagnostics, so people and AI agents can inspect the result together.',
+    githubUrl: 'https://github.com/iCyris/Roselle',
+    tags: ['SVG conversion', 'vectorization', 'fidelity'],
+  },
 ];

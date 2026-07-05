@@ -40,6 +40,68 @@ a {
 p { margin: 0; }
 
 /* ============================================================
+   Scrollbars — quiet night indicator
+   ============================================================ */
+
+* {
+  --scrollbar-track: transparent;
+  --scrollbar-thumb-start: color-mix(in oklab, var(--seed-lavender) 18%, var(--seed-bg-elevated));
+  --scrollbar-thumb-end: color-mix(in oklab, var(--seed-ocean) 22%, var(--seed-bg));
+  --scrollbar-thumb-hover-start: color-mix(in oklab, var(--seed-lavender) 34%, var(--seed-bg-elevated));
+  --scrollbar-thumb-hover-end: color-mix(in oklab, var(--seed-ocean) 38%, var(--seed-bg));
+  --scrollbar-thumb-border: 2px solid transparent;
+  --scrollbar-thumb-highlight: color-mix(in oklab, var(--seed-fg) 5%, transparent);
+  --scrollbar-thumb-ring: transparent;
+  --scrollbar-thumb-hover-highlight: color-mix(in oklab, var(--seed-fg) 11%, transparent);
+  --scrollbar-thumb-hover-ring: color-mix(in oklab, var(--seed-lavender) 12%, transparent);
+  scrollbar-width: thin;
+  scrollbar-color:
+    color-mix(in oklab, var(--seed-lavender) 18%, var(--seed-bg))
+    transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(
+      180deg,
+      var(--scrollbar-thumb-start),
+      var(--scrollbar-thumb-end)
+    );
+  border: var(--scrollbar-thumb-border);
+  border-radius: 999px;
+  background-clip: padding-box;
+  box-shadow:
+    inset 0 1px 0 var(--scrollbar-thumb-highlight),
+    inset 0 0 0 1px var(--scrollbar-thumb-ring);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(
+      180deg,
+      var(--scrollbar-thumb-hover-start),
+      var(--scrollbar-thumb-hover-end)
+    );
+  background-clip: padding-box;
+  box-shadow:
+    inset 0 1px 0 var(--scrollbar-thumb-hover-highlight),
+    inset 0 0 0 1px var(--scrollbar-thumb-hover-ring);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ============================================================
    Halftone utility — inline SVG data URI, dot pattern
    ============================================================ */
 
