@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { projects } from '../data/projects';
@@ -14,6 +14,51 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const [openCycle, setOpenCycle] = useState(0);
+  const [afuSvgMarkup, setAfuSvgMarkup] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (open) {
+      setOpenCycle((cycle) => cycle + 1);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let fallbackTimer = 0;
+    let idleId: number | null = null;
+
+    const loadAfuSvg = () => {
+      fetch('/works-afu-guide.svg')
+        .then((response) => (response.ok ? response.text() : null))
+        .then((text) => {
+          if (!text || cancelled) return;
+          setAfuSvgMarkup(text.replace(/^<\?xml[^>]*>\s*/i, ''));
+        })
+        .catch(() => {
+          /* Decorative enhancement only. The img fallback still works. */
+        });
+    };
+
+    const requestIdle = window.requestIdleCallback as
+      | ((callback: () => void) => number)
+      | undefined;
+    const cancelIdle = window.cancelIdleCallback as
+      | ((handle: number) => void)
+      | undefined;
+
+    if (requestIdle) {
+      idleId = requestIdle(loadAfuSvg);
+    } else {
+      fallbackTimer = window.setTimeout(loadAfuSvg, 900);
+    }
+
+    return () => {
+      cancelled = true;
+      if (idleId !== null && cancelIdle) cancelIdle(idleId);
+      window.clearTimeout(fallbackTimer);
+    };
+  }, []);
 
   /* ---- scroll lock ---- */
   useEffect(() => {
@@ -168,19 +213,57 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
 
             {/* Body */}
             <div className="portfolio__body">
-              <motion.h2
-                className="portfolio__title"
-                id="portfolio-title"
-                initial={reduced ? {} : { clipPath: 'inset(0 100% 0 0)' }}
-                animate={reduced ? {} : { clipPath: 'inset(0 0% 0 0)' }}
-                transition={{
-                  duration: 0.48,
-                  delay: 0.04,
-                  ease: [0.25, 1, 0.5, 1],
-                }}
-              >
-                Selected Works
-              </motion.h2>
+              <div className="portfolio__title-row">
+                <motion.h2
+                  className="portfolio__title"
+                  id="portfolio-title"
+                  initial={reduced ? {} : { clipPath: 'inset(0 100% 0 0)' }}
+                  animate={reduced ? {} : { clipPath: 'inset(0 0% 0 0)' }}
+                  transition={{
+                    duration: 0.48,
+                    delay: 0.04,
+                    ease: [0.25, 1, 0.5, 1],
+                  }}
+                >
+                  Selected Works
+                </motion.h2>
+
+                <motion.div
+                  key={`afu-guide-${openCycle}`}
+                  className="portfolio__afu-guide"
+                  aria-hidden="true"
+                  initial={reduced ? {} : { opacity: 0, y: 4 }}
+                  animate={
+                    reduced
+                      ? {}
+                      : {
+                          opacity: 1,
+                          y: 0,
+                        }
+                  }
+                  transition={{
+                    duration: 0.32,
+                    delay: 0.18,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  {afuSvgMarkup ? (
+                    <span
+                      key={`afu-svg-${openCycle}`}
+                      className="portfolio__afu-character portfolio__afu-character--inline"
+                      dangerouslySetInnerHTML={{ __html: afuSvgMarkup }}
+                    />
+                  ) : (
+                    <img
+                      key={`afu-img-${openCycle}`}
+                      className="portfolio__afu-character"
+                      src="/works-afu-guide.svg"
+                      alt=""
+                      draggable="false"
+                    />
+                  )}
+                </motion.div>
+              </div>
 
               <div className="portfolio__grid">
                 {projects.map((project, i) => (
