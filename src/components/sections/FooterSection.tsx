@@ -11,11 +11,7 @@ const LINES = [
   },
   { cmd: 'cat ./contact.txt', out: '' },
   { cmd: '  email', out: 'i@cyris.moe' },
-  { cmd: '  github', out: 'github.com/iCyris' },
-  {
-    cmd: 'echo $STATUS',
-    out: 'currently @Aliyun',
-  },
+  { cmd: '  github', out: 'github.com/iCyris' }
 ];
 
 export default function FooterSection() {
