@@ -261,7 +261,16 @@ export default function HeroSection({ onTogglePortfolio, portfolioOpen }: HeroSe
 
       <div className='hero__topbar mono-caps'>
         <span>FLEUR</span>
-        <span className='hero__topbar-dot' aria-hidden />
+        <span className='hero__topbar-sprout' aria-hidden>
+          <svg viewBox='0 0 18 16' focusable='false'>
+            <path d='M8.5 9.4C5.2 9.2 2.4 7 2 2.5c4.4.2 7 2.6 6.5 6.9Z' />
+            <path d='M9 9.4c.1-3.4 2.4-6.1 6.8-6.6-.2 4.5-2.7 7.2-6.8 6.6Z' />
+            <path
+              className='hero__topbar-sprout-stem'
+              d='M8.8 8.8c-.1 1.8.2 3.4.9 4.7'
+            />
+          </svg>
+        </span>
         <span>CULTIVATED BY CYRIS</span>
 
         {onTogglePortfolio && (

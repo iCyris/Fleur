@@ -135,7 +135,7 @@ const PlaygroundSection = forwardRef<HTMLElement, PlaygroundSectionProps>(
         </div>
 
         <p className='playground__hint mono-caps' aria-hidden>
-          ↓ tap dark surface to spawn ↓
+          Click or tap anywhere in this section to spawn a sticker
         </p>
       </section>
     );

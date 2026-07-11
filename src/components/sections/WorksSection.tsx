@@ -272,9 +272,6 @@ function PosterSoftMachines() {
         <line x1='60' y1='100' x2='740' y2='100' />
         <line x1='60' y1='540' x2='740' y2='540' />
       </g>
-      <g fill='var(--seed-neon)'>
-        <circle cx='720' cy='60' r='3' />
-      </g>
     </svg>
   );
 }
