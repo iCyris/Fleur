@@ -30,28 +30,23 @@ export default function GrainLayer() {
     }
 
     let frameIdx = 0
-    let timer = 0
-    let scrolling = false
-    let scrollTimer = 0
-    const onScroll = () => {
-      scrolling = true
-      clearTimeout(scrollTimer)
-      scrollTimer = window.setTimeout(() => { scrolling = false }, 150)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
+    let raf = 0
+    let lastPaint = 0
+    const mobileOrTouch = window.matchMedia('(pointer: coarse), (max-width: 768px)').matches
+    const frameInterval = mobileOrTouch ? 160 : 125
 
-    const tick = () => {
-      if (!document.hidden && !scrolling) {
+    const tick = (now: number) => {
+      if (!document.hidden && now - lastPaint >= frameInterval) {
         ctx.putImageData(frames[frameIdx], 0, 0)
         frameIdx = (frameIdx + 1) % FRAME_COUNT
+        lastPaint = now
       }
-      timer = window.setTimeout(tick, 125)
+      raf = requestAnimationFrame(tick)
     }
-    timer = window.setTimeout(tick, 125)
+    raf = requestAnimationFrame(tick)
+
     return () => {
-      clearTimeout(timer)
-      clearTimeout(scrollTimer)
-      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(raf)
     }
   }, [reduced])
 

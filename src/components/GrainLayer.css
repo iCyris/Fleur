@@ -8,5 +8,6 @@
   opacity: 0.5;
   mix-blend-mode: overlay;
   image-rendering: pixelated;
+  contain: strict;
   will-change: transform;
 }

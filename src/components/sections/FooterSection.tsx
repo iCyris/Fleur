@@ -90,10 +90,7 @@ export default function FooterSection() {
         </div>
         <div className='footer__sig-spacer' aria-hidden />
         <div className='footer__sig-block mono footer__sig-right'>
-          <div>made by cyris</div>
-          <div>
-            <span className='signal'>●</span> typeset in system stacks
-          </div>
+          <div>cultivated by cyris</div>
         </div>
       </div>
     </footer>
