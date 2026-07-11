@@ -425,7 +425,26 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
 
             {/* Footer */}
             <div className="portfolio__footer mono">
-              <span className="signal">●</span>
+              <span className="portfolio__sprout" aria-hidden="true">
+                <svg viewBox="0 0 18 16" focusable="false">
+                  <path
+                    className="portfolio__sprout-stem"
+                    d="M9 14.25C8.9 10.9 9.08 8.05 9.45 5.8"
+                  />
+                  <path
+                    className="portfolio__sprout-leaf portfolio__sprout-leaf--left"
+                    d="M8.9 10.8C6.1 10.65 4.55 9.25 4.2 7.05C6.45 7.15 8.15 8.25 8.9 10.8Z"
+                  />
+                  <path
+                    className="portfolio__sprout-leaf portfolio__sprout-leaf--right"
+                    d="M9.15 8.7C10.05 6.35 11.65 5.25 13.75 5.35C13.35 7.6 11.8 8.75 9.15 8.7Z"
+                  />
+                  <path
+                    className="portfolio__sprout-bud"
+                    d="M9.55 6.2C7.7 5.3 7.1 3.55 8.15 1.65C10.2 2.05 11.15 3.6 10.3 5.55C10.1 5.95 9.85 6.15 9.55 6.2Z"
+                  />
+                </svg>
+              </span>
               catalog · {String(projects.length).padStart(2, '0')} entries
               · curated by cyris
             </div>

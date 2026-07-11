@@ -347,6 +347,82 @@
   flex-shrink: 0;
 }
 
+.portfolio__sprout {
+  width: 18px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 18px;
+  color: var(--color-signal-fg);
+  filter: drop-shadow(0 0 4px color-mix(in oklab, currentColor 20%, transparent));
+}
+
+.portfolio__sprout svg {
+  width: 18px;
+  height: 16px;
+  overflow: visible;
+}
+
+.portfolio__sprout-stem {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.05;
+  stroke-linecap: round;
+  stroke-dasharray: 10;
+  stroke-dashoffset: 10;
+  opacity: 0.72;
+  animation: portfolio-sprout-stem 0.5s 0.08s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.portfolio__sprout-leaf,
+.portfolio__sprout-bud {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+.portfolio__sprout-leaf {
+  opacity: 0;
+  transform: scale(0.25) rotate(8deg);
+  animation: portfolio-sprout-leaf 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.portfolio__sprout-leaf--left {
+  animation-delay: 0.28s;
+  opacity: 0;
+}
+
+.portfolio__sprout-leaf--right {
+  animation-delay: 0.38s;
+}
+
+.portfolio__sprout-bud {
+  opacity: 0;
+  transform: scale(0.2) rotate(-8deg);
+  animation: portfolio-sprout-bud 0.52s 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes portfolio-sprout-stem {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes portfolio-sprout-leaf {
+  to {
+    opacity: 0.82;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes portfolio-sprout-bud {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
 /* ============================================================
    Responsive
    ============================================================ */
