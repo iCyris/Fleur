@@ -1,6 +1,6 @@
 .footer {
   position: relative;
-  padding: var(--space-9) clamp(20px, 5vw, 72px) var(--space-7);
+  padding: var(--space-9) clamp(20px, 5vw, 72px) var(--space-5);
   z-index: 2;
   /* content-visibility removed: caused layout shift/jitter on scroll-entry */
 }
@@ -104,7 +104,7 @@
 .footer__signature {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  align-items: end;
+  align-items: baseline;
   gap: var(--space-4);
   margin-top: var(--space-7);
   padding-top: var(--space-4);
@@ -113,10 +113,7 @@
 }
 
 .footer__sig-block {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  line-height: 1.7;
+  line-height: 1.4;
 }
 
 .footer__sig-right {
@@ -132,8 +129,9 @@
   .footer { padding: var(--space-7) var(--space-4) var(--space-5); }
   .footer__signature {
     grid-template-columns: 1fr;
-    gap: var(--space-3);
+    gap: var(--space-1);
   }
+  .footer__sig-spacer { display: none; }
   .footer__sig-right { text-align: left; }
   .footer__terminal-body {
     font-size: 12px;

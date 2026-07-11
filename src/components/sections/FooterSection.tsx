@@ -85,8 +85,7 @@ export default function FooterSection() {
 
       <div className='footer__signature'>
         <div className='footer__sig-block mono'>
-          <div>FLEUR</div>
-          <div>{year} — ∞</div>
+          <div>FLEUR · {year} — ∞</div>
         </div>
         <div className='footer__sig-spacer' aria-hidden />
         <div className='footer__sig-block mono footer__sig-right'>
