@@ -1,14 +1,51 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLabel from '../SectionLabel';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import {
+  contentGroupVariants,
+  contentItemVariants,
+  motionEase,
+  viewportOnce,
+} from '../../lib/motion';
 import './IntroSection.css';
 
 const AVATAR_URL = 'https://cdn.jsdelivr.net/npm/cyris/images/avatar.png';
 
 const PULL_QUOTE = '"Thinking in systems, designing with care."';
 
+const ANNOTATIONS = [
+  {
+    path: 'M40 50 L110 90',
+    label: 'AGENTS',
+    labelX: 10,
+    labelY: 44,
+    dotX: 40,
+    dotY: 50,
+  },
+  {
+    path: 'M280 60 L220 110',
+    label: 'HUMAN',
+    labelX: 232,
+    labelY: 54,
+    dotX: 280,
+    dotY: 60,
+  },
+  {
+    path: 'M50 320 L130 270',
+    label: 'DESIGN',
+    labelX: 10,
+    labelY: 334,
+    dotX: 50,
+    dotY: 320,
+  },
+] as const;
+
+const annotationEase = [0.22, 0.72, 0.18, 1] as const;
+
 export default function IntroSection() {
   const [avatarFailed, setAvatarFailed] = useState(false);
+  const reduced = useReducedMotion();
 
   return (
     <section className='intro' id='intro'>
@@ -17,39 +54,34 @@ export default function IntroSection() {
       <div className='intro__grid'>
         <motion.div
           className='intro__copy'
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-15% 0px -15% 0px' }}
-          transition={{ duration: 0.9, ease: [0.2, 0.6, 0.2, 1] }}
+          variants={contentGroupVariants}
+          initial={reduced ? false : 'hidden'}
+          whileInView='visible'
+          viewport={viewportOnce}
         >
-          <p className='intro__lead lead'>
+          <motion.p variants={contentItemVariants} className='intro__lead lead'>
             I'm <strong>Cyris</strong> — a{' '}
             <em>Human-AI Interaction Engineer</em>.
-          </p>
+          </motion.p>
 
-          <p className='intro__quote lead'>{PULL_QUOTE}</p>
+          <motion.p variants={contentItemVariants} className='intro__quote lead'>{PULL_QUOTE}</motion.p>
 
-          <p className='intro__body'>
+          <motion.p variants={contentItemVariants} className='intro__body'>
             I study how people and AI products work together — the seams
             between human intent and machine capability, the moments where
             trust is made or broken. I believe good AI should be adaptive,
             observable, and context-aware. These convictions shape everything
             I build — from interfaces to evaluations to decision frameworks.
-          </p>
+          </motion.p>
 
-          <div className='intro__meta-row mono'>
-            <span>index.001</span>
-            <span>·</span>
-            <span>since 2026</span>
-          </div>
         </motion.div>
 
         <motion.div
           className='intro__portrait'
-          initial={{ opacity: 0, rotate: -8, y: 40 }}
-          whileInView={{ opacity: 1, rotate: -4, y: 0 }}
-          viewport={{ once: true, margin: '-15% 0px -15% 0px' }}
-          transition={{ duration: 1.1, ease: [0.2, 0.6, 0.2, 1] }}
+          initial={reduced ? false : { opacity: 0, rotate: -4.8, y: 14, scale: 0.988 }}
+          whileInView={{ opacity: 1, rotate: -4, y: 0, scale: 1 }}
+          viewport={viewportOnce}
+          transition={{ duration: 1.16, delay: 0.08, ease: annotationEase }}
         >
           <div className='intro__polaroid'>
             <div className='intro__polaroid-image'>
@@ -74,11 +106,42 @@ export default function IntroSection() {
             </div>
           </div>
 
-          <svg className='intro__annotations' viewBox='0 0 320 360' aria-hidden>
-            <g stroke='var(--color-hairline)' strokeWidth='1' fill='none'>
-              <path d='M40 50 L 110 90' />
-              <path d='M280 60 L 220 110' />
-              <path d='M50 320 L 130 270' />
+          <motion.svg
+            className='intro__annotations'
+            viewBox='0 0 320 360'
+            aria-hidden
+            initial={reduced ? false : 'hidden'}
+            whileInView='visible'
+            viewport={viewportOnce}
+          >
+            <g className='intro__annotation-lines' fill='none'>
+              {ANNOTATIONS.map(({ path }, index) => (
+                <motion.path
+                  key={path}
+                  d={path}
+                  vectorEffect='non-scaling-stroke'
+                  variants={{
+                    hidden: { pathLength: 0, opacity: 0 },
+                    visible: {
+                      pathLength: 1,
+                      opacity: [0, 0.82, 1],
+                      transition: {
+                        pathLength: {
+                          duration: 0.46,
+                          delay: 0.18 + index * 0.06,
+                          ease: annotationEase,
+                        },
+                        opacity: {
+                          duration: 0.28,
+                          delay: 0.18 + index * 0.06,
+                          times: [0, 0.18, 1],
+                          ease: 'linear',
+                        },
+                      },
+                    },
+                  }}
+                />
+              ))}
             </g>
             <g
               fill='var(--color-fg)'
@@ -86,22 +149,52 @@ export default function IntroSection() {
               fontSize='10'
               letterSpacing='1'
             >
-              <text x='10' y='44'>
-                AGENTS
-              </text>
-              <text x='232' y='54'>
-                HUMAN
-              </text>
-              <text x='10' y='334'>
-                DESIGN
-              </text>
+              {ANNOTATIONS.map(({ label, labelX, labelY }, index) => (
+                <motion.text
+                  key={label}
+                  x={labelX}
+                  y={labelY}
+                  variants={{
+                    hidden: { opacity: 0, y: 2 },
+                    visible: {
+                      opacity: 0.9,
+                      y: 0,
+                      transition: {
+                        duration: 0.36,
+                        delay: 0.6 + index * 0.06,
+                        ease: annotationEase,
+                      },
+                    },
+                  }}
+                >
+                  {label}
+                </motion.text>
+              ))}
             </g>
-            <g fill='var(--seed-amber)'>
-              <circle cx='40' cy='50' r='2.5' />
-              <circle cx='280' cy='60' r='2.5' />
-              <circle cx='50' cy='320' r='2.5' />
+            <g className='intro__annotation-dots' fill='var(--seed-amber)'>
+              {ANNOTATIONS.map(({ label, dotX, dotY }, index) => (
+                <motion.circle
+                  key={`${label}-dot`}
+                  cx={dotX}
+                  cy={dotY}
+                  r='2.35'
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.72 },
+                    visible: {
+                      opacity: 1,
+                      scale: 1,
+                      transition: {
+                        duration: 0.32,
+                        delay: 0.1 + index * 0.06,
+                        ease: annotationEase,
+                      },
+                    },
+                  }}
+                  style={{ transformOrigin: `${dotX}px ${dotY}px` }}
+                />
+              ))}
             </g>
-          </svg>
+          </motion.svg>
         </motion.div>
       </div>
     </section>

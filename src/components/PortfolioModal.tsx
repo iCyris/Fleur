@@ -445,8 +445,7 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
                   />
                 </svg>
               </span>
-              catalog · {String(projects.length).padStart(2, '0')} entries
-              · curated by cyris
+              {String(projects.length)} entries
             </div>
           </motion.div>
         </div>

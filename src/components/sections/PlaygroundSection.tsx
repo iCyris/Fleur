@@ -2,6 +2,12 @@ import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import SectionLabel from '../SectionLabel';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import {
+  contentGroupVariants,
+  contentItemVariants,
+  motionEase,
+  viewportOnce,
+} from '../../lib/motion';
 import './PlaygroundSection.css';
 
 interface PlaygroundSectionProps {
@@ -35,9 +41,11 @@ const PlaygroundSection = forwardRef<HTMLElement, PlaygroundSectionProps>(
       const tick = () => {
         frames++;
         const now = performance.now();
-        if (now - last >= 1000) {
+        const elapsed = now - last;
+        if (elapsed >= 1000) {
+          const fps = Math.round((frames * 1000) / elapsed);
           if (fpsRef.current)
-            fpsRef.current.textContent = String(frames).padStart(2, '0');
+            fpsRef.current.textContent = String(fps).padStart(2, '0');
           frames = 0;
           last = now;
         }
@@ -90,49 +98,75 @@ const PlaygroundSection = forwardRef<HTMLElement, PlaygroundSectionProps>(
           meta='tap anywhere below to spawn a sticker'
         />
 
-        <div className='playground__stage'>
+        <motion.div
+          className='playground__stage'
+          initial={reduced ? false : { opacity: 0.45, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.82, ease: motionEase }}
+        >
           <motion.h2
             className='playground__headline'
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-15% 0px -15% 0px' }}
-            transition={{ duration: 1, ease: [0.2, 0.6, 0.2, 1] }}
+            variants={contentGroupVariants}
+            initial={reduced ? false : 'hidden'}
+            whileInView='visible'
+            viewport={viewportOnce}
           >
-            stickers /
+            <motion.span variants={contentItemVariants}>stickers /</motion.span>
             <br />
-            <em>memory fragments</em>
+            <motion.em variants={contentItemVariants}>memory fragments</motion.em>
           </motion.h2>
 
-          <div className='playground__copy'>
-            <p>
+          <motion.div
+            className='playground__copy'
+            variants={contentGroupVariants}
+            initial={reduced ? false : 'hidden'}
+            whileInView='visible'
+            viewport={viewportOnce}
+          >
+            <motion.p variants={contentItemVariants}>
               Stickers drift down from beyond the page — some pass through,
               some stick around like small memories. Tap or click anywhere on
               the dark surface to leave one of your own.
-            </p>
-            <p className='mono'>
+            </motion.p>
+            <motion.p variants={contentItemVariants} className='mono'>
               A quiet layer that lives beneath everything — just for fun.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className='playground__readout mono'>
-            <div className='playground__readout-row'>
+          <motion.div
+            className='playground__readout mono'
+            variants={contentGroupVariants}
+            initial={reduced ? false : 'hidden'}
+            whileInView='visible'
+            viewport={viewportOnce}
+          >
+            <motion.div
+              className='playground__readout-frame'
+              aria-hidden
+              initial={reduced ? false : { opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={viewportOnce}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            />
+            <motion.div variants={contentItemVariants} className='playground__readout-row'>
               <span>stickers_in_flight</span>
               <span>{String(stickerCount).padStart(2, '0')}</span>
-            </div>
-            <div className='playground__readout-row'>
+            </motion.div>
+            <motion.div variants={contentItemVariants} className='playground__readout-row'>
               <span>render_fps</span>
               <span ref={fpsRef}>60</span>
-            </div>
-            <div className='playground__readout-row'>
+            </motion.div>
+            <motion.div variants={contentItemVariants} className='playground__readout-row'>
               <span>scroll_velocity</span>
               <span ref={velRef}>0000 px/s</span>
-            </div>
-            <div className='playground__readout-row'>
+            </motion.div>
+            <motion.div variants={contentItemVariants} className='playground__readout-row'>
               <span>tap_to_spawn</span>
               <span className='signal'>enabled</span>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         <p className='playground__hint mono-caps' aria-hidden>
           Click or tap anywhere in this section to spawn a sticker

@@ -27,6 +27,11 @@
   max-width: 14ch;
 }
 
+.playground__headline > span,
+.playground__headline > em {
+  display: inline-block;
+}
+
 .playground__headline em {
   font-style: italic;
   font-weight: 300;
@@ -50,14 +55,26 @@
 }
 
 .playground__readout {
+  position: relative;
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-2);
   padding: var(--space-4);
   background: var(--color-glass-strong);
-  border: 1px solid var(--color-hairline);
   margin-top: var(--space-6);
+}
+
+.playground__readout-frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-hairline);
+  pointer-events: none;
+}
+
+.playground__readout-row {
+  position: relative;
+  z-index: 1;
 }
 
 .playground__readout-row {

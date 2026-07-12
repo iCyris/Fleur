@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion'
+import { frameItemVariants, sectionFrameVariants, viewportOnce } from '../lib/motion'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import './SectionLabel.css'
 
 interface SectionLabelProps {
@@ -8,18 +10,27 @@ interface SectionLabelProps {
 }
 
 export default function SectionLabel({ index, title, meta }: SectionLabelProps) {
+  const reduced = useReducedMotion()
+
   return (
     <motion.div
       className="section-label"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-      transition={{ duration: 0.7, ease: [0.2, 0.6, 0.2, 1] }}
+      variants={sectionFrameVariants}
+      initial={reduced ? false : 'hidden'}
+      whileInView="visible"
+      viewport={viewportOnce}
     >
-      <span className="section-label__index mono-caps">N°{index}</span>
-      <span className="section-label__title mono-caps">{title}</span>
-      {meta && <span className="section-label__meta mono">{meta}</span>}
-      <span className="section-label__rule" aria-hidden />
+      <motion.span variants={frameItemVariants} className="section-label__index mono-caps">N°{index}</motion.span>
+      <motion.span variants={frameItemVariants} className="section-label__title mono-caps">{title}</motion.span>
+      {meta && <motion.span variants={frameItemVariants} className="section-label__meta mono">{meta}</motion.span>}
+      <motion.span
+        className="section-label__rule"
+        aria-hidden
+        initial={reduced ? false : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={viewportOnce}
+        transition={{ duration: 0.5, delay: 0.12, ease: 'easeOut' }}
+      />
     </motion.div>
   )
 }

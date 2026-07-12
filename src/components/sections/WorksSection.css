@@ -75,6 +75,7 @@
   background: color-mix(in oklab, var(--seed-bg) 90%, transparent);
   border: 1px solid var(--color-hairline);
   color: var(--color-fg);
+  z-index: 3;
 }
 
 .works__caption {
