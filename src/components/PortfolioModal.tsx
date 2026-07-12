@@ -184,8 +184,6 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
             <div className="portfolio__header">
               <span className="portfolio__header-label mono-caps">
                 WORKS
-                <span className="portfolio__header-sep"> / </span>
-                selected projects
               </span>
 
               <button
@@ -225,7 +223,7 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
                     ease: [0.25, 1, 0.5, 1],
                   }}
                 >
-                  Selected Works
+                  Selected Projects
                 </motion.h2>
 
                 <motion.div

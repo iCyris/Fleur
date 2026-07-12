@@ -75,11 +75,6 @@
   letter-spacing: var(--track-caps);
 }
 
-.portfolio__header-sep {
-  color: color-mix(in oklab, var(--color-fg) 25%, transparent);
-  margin: 0 2px;
-}
-
 /* --- Close button --- */
 .portfolio__close {
   position: relative;
