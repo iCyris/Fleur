@@ -27,8 +27,6 @@ interface WorkItem {
 interface Work {
   index: string;
   title: string;
-  year: string;
-  medium: string;
   items: WorkItem[];
   Poster: React.FC<{ reduced: boolean }>;
 }
@@ -37,8 +35,6 @@ const WORKS: Work[] = [
   {
     index: '001',
     title: 'Good AI Product',
-    year: 'Pillar',
-    medium: 'Philosophy · AI Engineering',
     items: [
       {
         term: 'Adaptive',
@@ -58,8 +54,6 @@ const WORKS: Work[] = [
   {
     index: '002',
     title: 'Good Design Principles',
-    year: 'Pillar',
-    medium: 'Philosophy · Product Design',
     items: [
       { term: 'Simplicity', desc: 'simple surface, deep power.' },
       { term: 'Trust', desc: 'earned by design, not assumed by default.' },
@@ -71,8 +65,6 @@ const WORKS: Work[] = [
   {
     index: '003',
     title: 'The Human Edge',
-    year: 'Pillar',
-    medium: 'Philosophy · Human Nature',
     items: [
       { term: 'Taste', desc: 'telling good from bad; irreplaceable by AI.' },
       { term: 'Judgment', desc: 'making decisions in chaos.' },
@@ -196,11 +188,6 @@ function WorkCard({
           viewport={viewportOnce}
           transition={{ duration: 0.82, delay: 0.08, ease: motionEase }}
         >
-          <motion.div initial={reduced ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={viewportOnce} transition={{ duration: 0.42, delay: 0.18 }} className='works__caption-meta mono-caps'>
-            <span>{work.year}</span>
-            <span className='works__caption-dot' aria-hidden />
-            <span>{work.medium}</span>
-          </motion.div>
           <motion.h3 initial={reduced ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={viewportOnce} transition={{ duration: 0.62, delay: 0.24 }} className='works__title'>{work.title}</motion.h3>
           <motion.ul
             variants={contentGroupVariants}

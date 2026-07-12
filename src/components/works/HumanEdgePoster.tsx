@@ -27,6 +27,31 @@ export default function HumanEdgePoster({ reduced }: AnimatedPosterProps) {
           <stop offset='0%' stopColor='#1a1547' />
           <stop offset='100%' stopColor='#06061a' />
         </linearGradient>
+        <motion.linearGradient
+          id='ng-current'
+          gradientUnits='userSpaceOnUse'
+          y1='0' y2='0'
+          initial={reduced ? false : { x1: -420, x2: -40 }}
+          animate={{ x1: 840, x2: 1220 }}
+          transition={{ duration: 2.3, delay: 0.58, ease: posterEase }}
+        >
+          <stop offset='0%' stopColor='var(--seed-fg)' stopOpacity='0' />
+          <stop offset='44%' stopColor='var(--seed-fg)' stopOpacity='0.07' />
+          <stop offset='56%' stopColor='var(--seed-fg)' stopOpacity='0.07' />
+          <stop offset='100%' stopColor='var(--seed-fg)' stopOpacity='0' />
+        </motion.linearGradient>
+        <mask id='ng-current-mask' maskUnits='userSpaceOnUse' x='0' y='0' width='800' height='600'>
+          <path
+            d='M -240 460 Q -60 380 120 440 T 560 420 Q 760 396 920 430 Q 1015 452 1080 510 Q 1010 570 900 600 L -240 600 Z'
+            fill='white'
+            transform='translate(240 0)'
+          />
+          <path
+            d='M -240 510 Q -40 450 160 500 T 560 480 Q 760 458 920 492 Q 1015 514 1080 552 Q 1005 590 900 610 L -240 610 Z'
+            fill='black'
+            transform='translate(240 0)'
+          />
+        </mask>
       </defs>
 
       <rect width='800' height='600' fill='url(#ng-sky)' />
@@ -56,24 +81,24 @@ export default function HumanEdgePoster({ reduced }: AnimatedPosterProps) {
         ))}
       </g>
 
-      <motion.path
-        d='M -240 460 Q -60 380 120 440 T 560 420 Q 760 396 920 430 Q 1015 452 1080 510 Q 1010 570 900 600 L -240 600 Z'
-        fill='var(--seed-ocean)'
-        initial={reduced ? false : { x: 224, y: 18, opacity: 0 }}
-        animate={{ x: 240, y: 0, opacity: 0.64 }}
-        transition={{ duration: 1.86, delay: 0.3, ease: posterEase }}
-      />
-      <motion.path
-        d='M -240 510 Q -40 450 160 500 T 560 480 Q 760 458 920 492 Q 1015 514 1080 552 Q 1005 590 900 610 L -240 610 Z'
-        fill='#0a0a25'
-        initial={reduced ? false : { x: 228, y: 14, opacity: 0 }}
-        animate={{ x: 240, y: 0, opacity: 1 }}
-        transition={{ duration: 2.08, delay: 0.48, ease: posterEase }}
-      />
+      <motion.g
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.82, delay: 0.3, ease: posterEase }}
+        transform='translate(240 0)'
+      >
+        <path
+          d='M -240 460 Q -60 380 120 440 T 560 420 Q 760 396 920 430 Q 1015 452 1080 510 Q 1010 570 900 600 L -240 600 Z'
+          fill='var(--seed-ocean)'
+          opacity='0.64'
+        />
+        <path
+          d='M -240 510 Q -40 450 160 500 T 560 480 Q 760 458 920 492 Q 1015 514 1080 552 Q 1005 590 900 610 L -240 610 Z'
+          fill='#0a0a25'
+        />
+      </motion.g>
+      <rect width='800' height='600' fill='url(#ng-current)' mask='url(#ng-current-mask)' />
 
-      <g fontFamily='ui-monospace, monospace' fontSize='12' fill='var(--seed-fg)' letterSpacing='3'>
-        <motion.text x='60' y='60' {...reveal(reduced, 0.48, 0.46)}>THE HUMAN EDGE</motion.text>
-      </g>
       <motion.text
         x='60' y='430' fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
         fontWeight='500' fontSize='76' fill='var(--seed-fg)' letterSpacing='-2'

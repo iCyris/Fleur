@@ -46,23 +46,38 @@ export default function DesignPrinciplesPoster({ reduced }: AnimatedPosterProps)
           <polygon points='560,60 560,140 480,60' fill='var(--seed-bg)' opacity='0.6' />
           <polyline points='560,60 480,60 560,140' stroke='var(--seed-bg)' strokeWidth='1' fill='none' />
         </g>
-        <g fontFamily='ui-monospace, monospace' fill='var(--seed-bg)'>
-          <motion.text x='80' y='110' fontSize='14' letterSpacing='3' {...reveal(reduced, 0.4, 0.42)}>DESIGN · PRINCIPLES</motion.text>
-        </g>
         <g fill='var(--seed-bg)' opacity='0.85'>
           {!reduced && (
             <>
               <motion.text
                 x='80' y='460' fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
                 fontWeight='700' fontSize='92' letterSpacing='-4' fill='var(--seed-lavender)'
-                initial={{ opacity: 0, x: -8 }} animate={{ opacity: [0, 0.28, 0], x: 0 }}
-                transition={{ duration: 0.62, delay: 0.26, ease: posterEase }}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{
+                  opacity: [0, 0.36, 0.36, 0.16, 0.28, 0.28, 0.08, 0],
+                  x: [-8, -8, 6, 6, -4, -4, 2, 0],
+                }}
+                transition={{
+                  duration: 0.44,
+                  delay: 0.24,
+                  times: [0, 0.06, 0.08, 0.24, 0.26, 0.46, 0.64, 1],
+                  ease: 'linear',
+                }}
               >Design</motion.text>
               <motion.text
                 x='80' y='460' fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
                 fontWeight='700' fontSize='92' letterSpacing='-4' fill='var(--seed-amber)'
-                initial={{ opacity: 0, x: 8 }} animate={{ opacity: [0, 0.24, 0], x: 0 }}
-                transition={{ duration: 0.62, delay: 0.32, ease: posterEase }}
+                initial={{ opacity: 0, x: 8 }}
+                animate={{
+                  opacity: [0, 0.32, 0.32, 0.14, 0.24, 0.24, 0.06, 0],
+                  x: [8, 8, -6, -6, 4, 4, -2, 0],
+                }}
+                transition={{
+                  duration: 0.44,
+                  delay: 0.26,
+                  times: [0, 0.06, 0.08, 0.24, 0.26, 0.46, 0.64, 1],
+                  ease: 'linear',
+                }}
               >Design</motion.text>
             </>
           )}
@@ -71,7 +86,7 @@ export default function DesignPrinciplesPoster({ reduced }: AnimatedPosterProps)
             fontWeight='700' fontSize='92' letterSpacing='-4'
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.48, delay: 0.46, ease: posterEase }}
+            transition={{ duration: 0.18, delay: 0.46, ease: posterEase }}
             style={{ transformOrigin: '80px 460px' }}
           >Design</motion.text>
           <motion.text
@@ -98,7 +113,6 @@ export default function DesignPrinciplesPoster({ reduced }: AnimatedPosterProps)
             </motion.g>
           )
         })}
-        <motion.text x='600' y='540' opacity='0.6' {...reveal(reduced, 0.78, 0.38)}>less is more</motion.text>
       </g>
     </svg>
   )

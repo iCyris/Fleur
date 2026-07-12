@@ -48,14 +48,35 @@ export default function AdaptivePoster({ reduced }: AnimatedPosterProps) {
         fill='url(#sm-ink)'
         letterSpacing='-6'
       >
-        <motion.tspan {...reveal(reduced, 0.22, 0.76)}>Ev</motion.tspan>
-        <motion.tspan {...reveal(reduced, 0.34, 0.82)}>∞</motion.tspan>
-        <motion.tspan {...reveal(reduced, 0.28, 0.76)}>lve</motion.tspan>
+        <motion.tspan {...reveal(reduced, 0.16, 0.46)}>Ev</motion.tspan>
+        <motion.tspan
+          initial={reduced ? false : {
+            fillOpacity: 0,
+            strokeOpacity: 0,
+            strokeDashoffset: 180,
+          }}
+          animate={reduced ? undefined : {
+            fillOpacity: [0, 0.08, 1],
+            strokeOpacity: [0, 0.82, 0.64, 0],
+            strokeDashoffset: [180, 72, 0, 0],
+          }}
+          transition={reduced ? undefined : {
+            duration: 0.72,
+            delay: 0.32,
+            times: [0, 0.2, 0.72, 1],
+            ease: posterEase,
+          }}
+          stroke='var(--seed-fg)'
+          strokeWidth='1.4'
+          strokeDasharray='18 10'
+          style={{ paintOrder: 'stroke fill' }}
+        >∞</motion.tspan>
+        <motion.tspan {...reveal(reduced, 0.16, 0.46)}>lve</motion.tspan>
       </text>
 
       <g fontFamily='ui-monospace, monospace' fontSize='12' fill='var(--seed-fg)' opacity='0.7' letterSpacing='2'>
-        <motion.text x='60' y='60' {...reveal(reduced, 0.62, 0.46)}>AI PRODUCTS · ADAPTIVE SYSTEMS</motion.text>
-        <motion.text x='60' y='560' {...reveal(reduced, 0.74, 0.46)}>∞ — evolving with the user</motion.text>
+        <motion.text x='60' y='60' {...reveal(reduced, 0.46, 0.38)}>ADAPTIVE SYSTEMS</motion.text>
+        <motion.text x='60' y='560' {...reveal(reduced, 0.56, 0.38)}>∞ — evolving with the user</motion.text>
       </g>
       <g stroke='var(--seed-fg)' strokeOpacity='0.6' strokeWidth='1' fill='none'>
         {[100, 540].map((y) => (
