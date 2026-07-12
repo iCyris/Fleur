@@ -56,13 +56,13 @@ export default function DesignPrinciplesPoster({ reduced }: AnimatedPosterProps)
                 x='80' y='460' fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
                 fontWeight='700' fontSize='92' letterSpacing='-4' fill='var(--seed-lavender)'
                 initial={{ opacity: 0, x: -8 }} animate={{ opacity: [0, 0.28, 0], x: 0 }}
-                transition={{ duration: 0.58, delay: 0.46, ease: posterEase }}
+                transition={{ duration: 0.62, delay: 0.26, ease: posterEase }}
               >Design</motion.text>
               <motion.text
                 x='80' y='460' fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
                 fontWeight='700' fontSize='92' letterSpacing='-4' fill='var(--seed-amber)'
                 initial={{ opacity: 0, x: 8 }} animate={{ opacity: [0, 0.24, 0], x: 0 }}
-                transition={{ duration: 0.58, delay: 0.5, ease: posterEase }}
+                transition={{ duration: 0.62, delay: 0.32, ease: posterEase }}
               >Design</motion.text>
             </>
           )}
@@ -71,7 +71,7 @@ export default function DesignPrinciplesPoster({ reduced }: AnimatedPosterProps)
             fontWeight='700' fontSize='92' letterSpacing='-4'
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.56, delay: 0.58, ease: posterEase }}
+            transition={{ duration: 0.48, delay: 0.46, ease: posterEase }}
             style={{ transformOrigin: '80px 460px' }}
           >Design</motion.text>
           <motion.text
