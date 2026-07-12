@@ -97,7 +97,7 @@ export default function AdaptivePoster({ reduced }: AnimatedPosterProps) {
       )}
 
       <g fontFamily='ui-monospace, monospace' fontSize='12' fill='var(--seed-fg)' opacity='0.7' letterSpacing='2'>
-        <motion.text x='60' y='60' {...reveal(reduced, 0.46, 0.38)}>ADAPTIVE SYSTEMS</motion.text>
+        <motion.text x='60' y='80' {...reveal(reduced, 0.46, 0.38)}>ADAPTIVE SYSTEMS</motion.text>
         <motion.text x='60' y='560' {...reveal(reduced, 0.56, 0.38)}>∞ — evolving with the user</motion.text>
       </g>
       <g stroke='var(--seed-fg)' strokeOpacity='0.6' strokeWidth='1' fill='none'>
