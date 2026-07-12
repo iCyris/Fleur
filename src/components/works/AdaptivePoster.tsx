@@ -50,29 +50,51 @@ export default function AdaptivePoster({ reduced }: AnimatedPosterProps) {
       >
         <motion.tspan {...reveal(reduced, 0.16, 0.46)}>Ev</motion.tspan>
         <motion.tspan
-          initial={reduced ? false : {
-            fillOpacity: 0,
-            strokeOpacity: 0,
-            strokeDashoffset: 180,
-          }}
-          animate={reduced ? undefined : {
-            fillOpacity: [0, 0.08, 1],
-            strokeOpacity: [0, 0.82, 0.64, 0],
-            strokeDashoffset: [180, 72, 0, 0],
-          }}
+          initial={reduced ? false : { opacity: 0 }}
+          animate={reduced ? undefined : { opacity: [0, 0.08, 1] }}
           transition={reduced ? undefined : {
-            duration: 0.72,
-            delay: 0.32,
-            times: [0, 0.2, 0.72, 1],
+            duration: 0.52,
+            delay: 0.46,
+            times: [0, 0.28, 1],
             ease: posterEase,
           }}
-          stroke='var(--seed-fg)'
-          strokeWidth='1.4'
-          strokeDasharray='18 10'
-          style={{ paintOrder: 'stroke fill' }}
         >∞</motion.tspan>
         <motion.tspan {...reveal(reduced, 0.16, 0.46)}>lve</motion.tspan>
       </text>
+
+      {!reduced && (
+        <text
+          x='50%'
+          y='400'
+          textAnchor='middle'
+          fontFamily='"Helvetica Neue", Inter, system-ui, sans-serif'
+          fontWeight='700'
+          fontSize='200'
+          letterSpacing='-6'
+          fill='none'
+          aria-hidden='true'
+          pointerEvents='none'
+        >
+          <tspan stroke='none'>Ev</tspan>
+          <motion.tspan
+            initial={{ strokeOpacity: 0, strokeDashoffset: 180 }}
+            animate={{
+              strokeOpacity: [0, 0.82, 0.64, 0],
+              strokeDashoffset: [180, 72, 0, 0],
+            }}
+            transition={{
+              duration: 0.72,
+              delay: 0.32,
+              times: [0, 0.2, 0.72, 1],
+              ease: posterEase,
+            }}
+            stroke='var(--seed-fg)'
+            strokeWidth='1.4'
+            strokeDasharray='18 10'
+          >∞</motion.tspan>
+          <tspan stroke='none'>lve</tspan>
+        </text>
+      )}
 
       <g fontFamily='ui-monospace, monospace' fontSize='12' fill='var(--seed-fg)' opacity='0.7' letterSpacing='2'>
         <motion.text x='60' y='60' {...reveal(reduced, 0.46, 0.38)}>ADAPTIVE SYSTEMS</motion.text>

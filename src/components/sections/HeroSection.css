@@ -55,16 +55,26 @@
 .hero__title {
   position: relative;
   font-family: var(--font-display);
-  font-weight: 300;
+  /*
+   * WebKit maps the synthetic 300 face of system Helvetica more heavily than
+   * Chromium, which is especially visible once background-clipped text and a
+   * second shimmer layer are composited. Prefer the installed light face and
+   * forbid synthetic weight generation so both engines use the same outline.
+   */
+  font-weight: 200;
+  font-synthesis: none;
+  font-optical-sizing: none;
   font-size: var(--fs-display);
   line-height: 0.86;
   letter-spacing: -0.04em;
   color: var(--color-fg);
   margin: 0;
   text-align: center;
-  -webkit-text-stroke: 0.5px color-mix(in oklab, var(--seed-fg) 30%, transparent);
+  -webkit-text-stroke: 0.25px color-mix(in oklab, var(--seed-fg) 24%, transparent);
   contain: layout style;
+  -webkit-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .hero__title::before {
@@ -85,6 +95,8 @@
 
 .hero__letter {
   display: inline-block;
+  -webkit-user-select: none;
+  user-select: none;
   will-change: transform, opacity;
   background: linear-gradient(168deg,
     color-mix(in oklab, var(--seed-amber) 85%, var(--seed-fg)) 0%,
@@ -107,7 +119,9 @@
 .hero__title-shimmer {
   position: absolute;
   inset: 0;
-  font-weight: 300;
+  font-weight: inherit;
+  font-synthesis: inherit;
+  font-optical-sizing: inherit;
   letter-spacing: -0.04em;
   line-height: 0.86;
   display: flex;
@@ -129,6 +143,8 @@
   color: transparent;
   animation: hero-shimmer 6s ease-in-out infinite;
   pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
   will-change: background-position;
 }
 
