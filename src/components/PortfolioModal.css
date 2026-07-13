@@ -518,19 +518,19 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
-  padding: 4px 0;
+  min-height: 32px;
+  padding: 2px 0;
   border: none;
-  border-bottom: 1px solid color-mix(in oklab, var(--seed-ocean) 42%, transparent);
   border-radius: 0;
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
+  line-height: 1.2;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--portfolio-ink);
   text-decoration: none;
   background: transparent;
-  transition: border-color 0.2s, color 0.2s;
+  transition: color 0.2s;
   cursor: pointer;
 }
 
@@ -540,14 +540,20 @@
 }
 
 .portfolio__link-arrow {
-  opacity: 0.52;
+  margin-left: -2px;
+  opacity: 0;
+  transform: translate(-2px, 2px);
   transition: opacity 0.2s, transform 0.2s;
   flex-shrink: 0;
 }
 
+.portfolio__link:focus-visible .portfolio__link-arrow {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
 @media (hover: hover) {
   .portfolio__link:hover {
-    border-color: var(--portfolio-accent);
     background: transparent;
     color: var(--seed-ocean);
   }
