@@ -200,6 +200,27 @@
   outline: none;
 }
 
+/* Touch devices switch states instantly. There is no hover phase to bridge. */
+@media (hover: none) and (pointer: coarse) {
+  .portfolio-toggle {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .portfolio-toggle__line {
+    transition: none;
+  }
+
+  .portfolio-toggle:active .portfolio-toggle__line,
+  .portfolio-toggle--closing .portfolio-toggle__line {
+    background: color-mix(in oklab, var(--color-fg) 45%, transparent);
+  }
+
+  .portfolio-toggle--open:active .portfolio-toggle__line {
+    background: color-mix(in oklab, var(--seed-bg) 42%, transparent);
+  }
+}
+
 /* --- Body --- */
 .portfolio__body-shell {
   --portfolio-mask-top-alpha: 1;

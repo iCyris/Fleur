@@ -167,12 +167,20 @@ export default function PortfolioModal({ open, onToggle }: PortfolioModalProps) 
       closingMorphTimerRef.current = null;
     }
 
-    if (open && !reduced) {
-      setClosingMorph(true);
-      closingMorphTimerRef.current = window.setTimeout(() => {
+    const instantTouchToggle = window.matchMedia(
+      '(hover: none) and (pointer: coarse)',
+    ).matches;
+
+    if (open) {
+      if (!reduced && !instantTouchToggle) {
+        setClosingMorph(true);
+        closingMorphTimerRef.current = window.setTimeout(() => {
+          setClosingMorph(false);
+          closingMorphTimerRef.current = null;
+        }, 440);
+      } else {
         setClosingMorph(false);
-        closingMorphTimerRef.current = null;
-      }, 440);
+      }
     } else {
       setClosingMorph(false);
       setOpenCycle((cycle) => cycle + 1);
