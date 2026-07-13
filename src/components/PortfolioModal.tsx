@@ -6,22 +6,97 @@ import './PortfolioModal.css';
 
 interface PortfolioModalProps {
   open: boolean;
-  onClose: () => void;
+  onToggle: () => void;
 }
 
-export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
+const SHEET_COUNT = 3;
+const SHEET_DURATION_S = 0.35;
+const SHEET_STAGGER_S = 0.1;
+const SHEETS_COMPLETE_S =
+  SHEET_DURATION_S + (SHEET_COUNT - 1) * SHEET_STAGGER_S;
+const AFU_REVEAL_DELAY_MS = SHEETS_COMPLETE_S * 1000;
+
+export default function PortfolioModal({ open, onToggle }: PortfolioModalProps) {
   const reduced = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const bodyShellRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const closingMorphTimerRef = useRef<number | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const afuSvgMarkupRef = useRef<string | null>(null);
   const [openCycle, setOpenCycle] = useState(0);
-  const [afuSvgMarkup, setAfuSvgMarkup] = useState<string | null>(null);
+  const [afuReady, setAfuReady] = useState(false);
+  const [closingMorph, setClosingMorph] = useState(false);
+  const [afuMarkupForCycle, setAfuMarkupForCycle] = useState<string | null>(null);
 
   useEffect(() => {
-    if (open) {
-      setOpenCycle((cycle) => cycle + 1);
+    if (!open || !bodyRef.current || !bodyShellRef.current) return;
+
+    const body = bodyRef.current;
+    const shell = bodyShellRef.current;
+    const fadeDistance = 40;
+    const smoothstep = (value: number) => value * value * (3 - 2 * value);
+    const updateScrollEdges = () => {
+      const maxScrollTop = Math.max(0, body.scrollHeight - body.clientHeight);
+      const remainingScroll = Math.max(0, maxScrollTop - body.scrollTop);
+      const topProgress = Math.min(1, Math.max(0, body.scrollTop / fadeDistance));
+      const bottomProgress = maxScrollTop === 0
+        ? 0
+        : Math.min(1, remainingScroll / fadeDistance);
+      const topEdgeAlpha = 1 - smoothstep(topProgress);
+      const bottomEdgeAlpha = maxScrollTop === 0
+        ? 1
+        : 1 - smoothstep(bottomProgress);
+
+      shell.style.setProperty('--portfolio-mask-top-alpha', topEdgeAlpha.toFixed(3));
+      shell.style.setProperty('--portfolio-mask-bottom-alpha', bottomEdgeAlpha.toFixed(3));
+    };
+
+    updateScrollEdges();
+    const frame = window.requestAnimationFrame(updateScrollEdges);
+    const resizeObserver = new ResizeObserver(updateScrollEdges);
+    resizeObserver.observe(body);
+    if (body.firstElementChild) resizeObserver.observe(body.firstElementChild);
+    body.addEventListener('scroll', updateScrollEdges, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      body.removeEventListener('scroll', updateScrollEdges);
+    };
+  }, [open, openCycle]);
+
+  useEffect(() => {
+    return () => {
+      if (closingMorphTimerRef.current !== null) {
+        window.clearTimeout(closingMorphTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      setAfuReady(false);
+      setAfuMarkupForCycle(null);
+      return;
     }
-  }, [open]);
+
+    if (reduced) {
+      setAfuMarkupForCycle(afuSvgMarkupRef.current);
+      setAfuReady(true);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      // Freeze the rendering carrier for this open cycle. If the inline SVG
+      // finishes preloading later, switching from <img> to inline <svg> here
+      // would remount the asset and restart its internal animation timeline.
+      setAfuMarkupForCycle(afuSvgMarkupRef.current);
+      setAfuReady(true);
+    }, AFU_REVEAL_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [open, reduced]);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,7 +108,8 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
         .then((response) => (response.ok ? response.text() : null))
         .then((text) => {
           if (!text || cancelled) return;
-          setAfuSvgMarkup(text.replace(/^<\?xml[^>]*>\s*/i, ''));
+          const markup = text.replace(/^<\?xml[^>]*>\s*/i, '');
+          afuSvgMarkupRef.current = markup;
         })
         .catch(() => {
           /* Decorative enhancement only. The img fallback still works. */
@@ -77,7 +153,7 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
     if (open) {
       previousFocusRef.current = document.activeElement as HTMLElement;
       requestAnimationFrame(() => {
-        closeRef.current?.focus();
+        toggleRef.current?.focus();
       });
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
@@ -85,12 +161,32 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
     }
   }, [open]);
 
+  const handleToggle = useCallback(() => {
+    if (closingMorphTimerRef.current !== null) {
+      window.clearTimeout(closingMorphTimerRef.current);
+      closingMorphTimerRef.current = null;
+    }
+
+    if (open && !reduced) {
+      setClosingMorph(true);
+      closingMorphTimerRef.current = window.setTimeout(() => {
+        setClosingMorph(false);
+        closingMorphTimerRef.current = null;
+      }, 440);
+    } else {
+      setClosingMorph(false);
+      setOpenCycle((cycle) => cycle + 1);
+    }
+
+    onToggle();
+  }, [open, reduced, onToggle]);
+
   /* ---- Esc key ---- */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') handleToggle();
     },
-    [onClose],
+    [handleToggle],
   );
 
   useEffect(() => {
@@ -103,9 +199,13 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
   /* ---- focus trap ---- */
   const handleTabTrap = useCallback((e: KeyboardEvent) => {
     if (e.key !== 'Tab' || !panelRef.current) return;
-    const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+    const panelFocusable = panelRef.current.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
+    const focusable = [
+      ...(toggleRef.current ? [toggleRef.current] : []),
+      ...Array.from(panelFocusable),
+    ];
     if (focusable.length === 0) return;
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
@@ -138,163 +238,174 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
   const panelAnim = reduced
     ? {}
     : {
-        initial: { opacity: 0, y: 10, scale: 0.985 },
-        animate: { opacity: 1, y: 0, scale: 1 },
-        exit: { opacity: 0, y: 10, scale: 0.985 },
-        transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+        initial: { opacity: 0 },
+        animate: {
+          opacity: 1,
+          transition: { duration: 0.26, delay: 0.48, ease: 'easeOut' },
+        },
+        exit: {
+          opacity: 0,
+          transition: { duration: 0.2, ease: 'easeOut' },
+        },
       };
+
+  function sheetAnim(index: number) {
+    if (reduced) return {};
+    return {
+      initial: { rotate: 90 },
+      animate: {
+        rotate: 0,
+        transition: {
+          duration: SHEET_DURATION_S,
+          delay: index * SHEET_STAGGER_S,
+          ease: 'easeInOut',
+        },
+      },
+      exit: {
+        rotate: -90,
+        transition: {
+          duration: SHEET_DURATION_S,
+          delay: (SHEET_COUNT - 1 - index) * SHEET_STAGGER_S,
+          ease: 'easeInOut',
+        },
+      },
+    };
+  }
 
   function cardAnim(i: number) {
     if (reduced) return {};
     return {
-      initial: { opacity: 0, y: 16 },
+      initial: { opacity: 0, y: 6 },
       animate: { opacity: 1, y: 0 },
       transition: {
-        type: 'spring',
-        stiffness: 200,
-        damping: 22,
-        mass: 0.5,
-        delay: 0.03 + i * 0.06,
+        duration: 0.24,
+        delay: 0.02 + i * 0.04,
+        ease: [0.22, 1, 0.36, 1],
       },
     };
   }
 
   return (
-    <AnimatePresence>
-      {open && (
-        <div className="portfolio__root">
+    <>
+      <button
+        ref={toggleRef}
+        className={
+          'portfolio-toggle' +
+          (open ? ' portfolio-toggle--open' : '') +
+          (closingMorph ? ' portfolio-toggle--closing' : '')
+        }
+        onClick={handleToggle}
+        type="button"
+        aria-label={open ? 'Close portfolio' : 'Open portfolio'}
+        aria-expanded={open}
+        aria-controls="portfolio-dialog"
+      >
+        <span className="portfolio-toggle__line" />
+        <span className="portfolio-toggle__line" />
+        <span className="portfolio-toggle__line" />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+        <div key={`portfolio-${openCycle}`} ref={panelRef} className="portfolio__root">
           {/* ---- Backdrop ---- */}
           <motion.div
             className="portfolio__backdrop"
-            onClick={onClose}
+            onClick={handleToggle}
             aria-hidden="true"
             {...backdropAnim}
           />
 
+          <div className="portfolio__sheets" aria-hidden="true">
+            <motion.div className="portfolio__sheet portfolio__sheet--orchid" {...sheetAnim(0)} />
+            <motion.div className="portfolio__sheet portfolio__sheet--botanical" {...sheetAnim(1)} />
+            <motion.div className="portfolio__sheet portfolio__sheet--paper" {...sheetAnim(2)} />
+          </div>
+
           {/* ---- Panel ---- */}
           <motion.div
-            ref={panelRef}
+            id="portfolio-dialog"
             className="portfolio__panel"
             role="dialog"
             aria-modal="true"
             aria-labelledby="portfolio-title"
             {...panelAnim}
           >
-            {/* Header */}
-            <div className="portfolio__header">
-              <span className="portfolio__header-label mono-caps">
-                WORKS
-              </span>
+            <div className="portfolio__title-row">
+              <div className="portfolio__title-copy">
+                <div className="portfolio__title-meta mono-caps">
+                  Portfolio / {String(projects.length).padStart(2, '0')} entries
+                </div>
+                <div className="portfolio__title-main">
+                  <h2 className="portfolio__title" id="portfolio-title">
+                    Works
+                  </h2>
 
-              <button
-                ref={closeRef}
-                className="portfolio__close"
-                onClick={onClose}
-                type="button"
-                aria-label="Close portfolio"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  aria-hidden="true"
-                >
-                  <line x1="2" y1="2" x2="14" y2="14" />
-                  <line x1="14" y1="2" x2="2" y2="14" />
-                </svg>
-              </button>
+                  {afuReady && (
+                    <div
+                      key={`afu-guide-${openCycle}`}
+                      className="portfolio__afu-guide"
+                      aria-hidden="true"
+                    >
+                      {afuMarkupForCycle ? (
+                        <span
+                          key={`afu-svg-${openCycle}`}
+                          className="portfolio__afu-character portfolio__afu-character--inline"
+                          dangerouslySetInnerHTML={{ __html: afuMarkupForCycle }}
+                        />
+                      ) : (
+                        <img
+                          key={`afu-img-${openCycle}`}
+                          className="portfolio__afu-character"
+                          src="/works-afu-guide.svg"
+                          alt=""
+                          draggable="false"
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Body */}
-            <div className="portfolio__body">
-              <div className="portfolio__title-row">
-                <motion.h2
-                  className="portfolio__title"
-                  id="portfolio-title"
-                  initial={reduced ? {} : { clipPath: 'inset(0 100% 0 0)' }}
-                  animate={reduced ? {} : { clipPath: 'inset(0 0% 0 0)' }}
-                  transition={{
-                    duration: 0.48,
-                    delay: 0.04,
-                    ease: [0.25, 1, 0.5, 1],
-                  }}
-                >
-                  Selected Projects
-                </motion.h2>
-
-                <motion.div
-                  key={`afu-guide-${openCycle}`}
-                  className="portfolio__afu-guide"
-                  aria-hidden="true"
-                  initial={reduced ? {} : { opacity: 0, y: 4 }}
-                  animate={
-                    reduced
-                      ? {}
-                      : {
-                          opacity: 1,
-                          y: 0,
-                        }
-                  }
-                  transition={{
-                    duration: 0.32,
-                    delay: 0.18,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  {afuSvgMarkup ? (
-                    <span
-                      key={`afu-svg-${openCycle}`}
-                      className="portfolio__afu-character portfolio__afu-character--inline"
-                      dangerouslySetInnerHTML={{ __html: afuSvgMarkup }}
-                    />
-                  ) : (
-                    <img
-                      key={`afu-img-${openCycle}`}
-                      className="portfolio__afu-character"
-                      src="/works-afu-guide.svg"
-                      alt=""
-                      draggable="false"
-                    />
-                  )}
-                </motion.div>
-              </div>
-
-              <div className="portfolio__grid">
-                {projects.map((project, i) => (
+            <div ref={bodyShellRef} className="portfolio__body-shell">
+              <div ref={bodyRef} className="portfolio__body">
+                <div className="portfolio__grid">
+                  {projects.map((project, i) => (
                   <motion.div
                     key={project.id}
                     className="portfolio__card"
                     {...cardAnim(i)}
                   >
-                    {/* Card top bar */}
-                    <div className="portfolio__card-top">
-                      <span className="portfolio__card-index mono-caps">
-                        {project.index}
-                      </span>
-                    </div>
-                    <div className="portfolio__card-rule" aria-hidden="true" />
-
-                    {/* Content */}
-                    <h3 className="portfolio__card-name">{project.name}</h3>
-                    <p className="portfolio__card-desc">
-                      {project.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="portfolio__card-tags">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="portfolio__card-tag mono">
-                          {tag}
+                    <div className="portfolio__card-surface">
+                      {/* Card top bar */}
+                      <div className="portfolio__card-top">
+                        <span className="portfolio__card-index mono-caps">
+                          {project.index}
                         </span>
-                      ))}
-                    </div>
+                      </div>
 
-                    {/* Links */}
-                    <div className="portfolio__card-links">
+                      <div className="portfolio__card-paper">
+                        <div className="portfolio__card-rule" aria-hidden="true" />
+
+                        {/* Content */}
+                        <h3 className="portfolio__card-name">{project.name}</h3>
+                        <p className="portfolio__card-desc">
+                          {project.description}
+                        </p>
+
+                        {/* Tags */}
+                        <div className="portfolio__card-tags">
+                          {project.tags.map((tag) => (
+                            <span key={tag} className="portfolio__card-tag mono">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Links */}
+                        <div className="portfolio__card-links">
                       <a
                         href={project.githubUrl}
                         target="_blank"
@@ -415,13 +526,16 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
                           </svg>
                         </a>
                       )}
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Footer */}
+            {/* Footer stays outside the scroll container. */}
             <div className="portfolio__footer mono">
               <span className="portfolio__sprout" aria-hidden="true">
                 <svg viewBox="0 0 18 16" focusable="false">
@@ -443,11 +557,12 @@ export default function PortfolioModal({ open, onClose }: PortfolioModalProps) {
                   />
                 </svg>
               </span>
-              {String(projects.length)} entries
+              every work carries a flower’s name
             </div>
           </motion.div>
         </div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

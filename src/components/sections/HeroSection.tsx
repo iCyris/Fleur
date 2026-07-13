@@ -11,7 +11,7 @@ import { useViewportSize } from '../../hooks/useViewportSize';
 import './HeroSection.css';
 
 const TITLE = 'Fleur';
-const SUBTITLE = 'THINKING  IN  SYSTEMS,  DESIGNING  WITH  CARE';
+const SUBTITLE = 'RADIANT  IN  ENDLESS  SUMMER';
 
 function MagneticLetter({
   char,
@@ -60,12 +60,7 @@ function MagneticLetter({
 
 const LETTER_COUNT = TITLE.length;
 
-interface HeroSectionProps {
-  onTogglePortfolio?: () => void;
-  portfolioOpen?: boolean;
-}
-
-export default function HeroSection({ onTogglePortfolio, portfolioOpen }: HeroSectionProps) {
+export default function HeroSection() {
   const reduced = useReducedMotion();
   const { hasHover, isMobile } = useViewportSize();
   const ref = useRef<HTMLElement>(null);
@@ -258,23 +253,7 @@ export default function HeroSection({ onTogglePortfolio, portfolioOpen }: HeroSe
         />
       )}
 
-      <div className='hero__topbar mono-caps'>
-        {onTogglePortfolio && (
-          <button
-            className={
-              'hero__topbar-portfolio' +
-              (portfolioOpen ? ' hero__topbar-portfolio--open' : '')
-            }
-            onClick={onTogglePortfolio}
-            type='button'
-            aria-label={portfolioOpen ? 'Close portfolio' : 'Open portfolio'}
-          >
-            <span className='hero__topbar-portfolio-line' />
-            <span className='hero__topbar-portfolio-line' />
-            <span className='hero__topbar-portfolio-line' />
-          </button>
-        )}
-      </div>
+      <div className='hero__topbar mono-caps' />
 
       <motion.div
         className='hero__title-wrap'

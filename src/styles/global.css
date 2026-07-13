@@ -43,26 +43,21 @@ p { margin: 0; }
    Scrollbars — quiet night indicator
    ============================================================ */
 
-* {
+:root {
   --scrollbar-track: transparent;
-  --scrollbar-thumb-start: color-mix(in oklab, var(--seed-lavender) 18%, var(--seed-bg-elevated));
-  --scrollbar-thumb-end: color-mix(in oklab, var(--seed-ocean) 22%, var(--seed-bg));
-  --scrollbar-thumb-hover-start: color-mix(in oklab, var(--seed-lavender) 34%, var(--seed-bg-elevated));
-  --scrollbar-thumb-hover-end: color-mix(in oklab, var(--seed-ocean) 38%, var(--seed-bg));
-  --scrollbar-thumb-border: 2px solid transparent;
-  --scrollbar-thumb-highlight: color-mix(in oklab, var(--seed-fg) 5%, transparent);
-  --scrollbar-thumb-ring: transparent;
-  --scrollbar-thumb-hover-highlight: color-mix(in oklab, var(--seed-fg) 11%, transparent);
-  --scrollbar-thumb-hover-ring: color-mix(in oklab, var(--seed-lavender) 12%, transparent);
+  --scrollbar-thumb: color-mix(in oklab, var(--seed-fg) 22%, var(--seed-bg-elevated));
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--seed-fg) 29%, var(--seed-bg-elevated));
+  --scrollbar-thumb-active: color-mix(in oklab, var(--seed-fg) 34%, var(--seed-bg-elevated));
+}
+
+* {
   scrollbar-width: thin;
-  scrollbar-color:
-    color-mix(in oklab, var(--seed-lavender) 18%, var(--seed-bg))
-    transparent;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -70,31 +65,21 @@ p { margin: 0; }
 }
 
 *::-webkit-scrollbar-thumb {
-  background:
-    linear-gradient(
-      180deg,
-      var(--scrollbar-thumb-start),
-      var(--scrollbar-thumb-end)
-    );
-  border: var(--scrollbar-thumb-border);
-  border-radius: 999px;
+  min-height: 44px;
+  background: var(--scrollbar-thumb);
+  border: 2px solid transparent;
+  border-radius: 3px;
   background-clip: padding-box;
-  box-shadow:
-    inset 0 1px 0 var(--scrollbar-thumb-highlight),
-    inset 0 0 0 1px var(--scrollbar-thumb-ring);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background:
-    linear-gradient(
-      180deg,
-      var(--scrollbar-thumb-hover-start),
-      var(--scrollbar-thumb-hover-end)
-    );
+  background: var(--scrollbar-thumb-hover);
   background-clip: padding-box;
-  box-shadow:
-    inset 0 1px 0 var(--scrollbar-thumb-hover-highlight),
-    inset 0 0 0 1px var(--scrollbar-thumb-hover-ring);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+  background-clip: padding-box;
 }
 
 *::-webkit-scrollbar-corner {

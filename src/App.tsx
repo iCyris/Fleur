@@ -33,7 +33,7 @@ export default function App() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
       >
-        <HeroSection onTogglePortfolio={() => setPortfolioOpen(prev => !prev)} portfolioOpen={portfolioOpen} />
+        <HeroSection />
         <IntroSection />
         <WorksSection />
         <PlaygroundSection ref={playgroundRef} stickerCount={stickerCount} />
@@ -41,7 +41,10 @@ export default function App() {
       </motion.div>
 
       <GrainLayer />
-      <PortfolioModal open={portfolioOpen} onClose={() => setPortfolioOpen(false)} />
+      <PortfolioModal
+        open={portfolioOpen}
+        onToggle={() => setPortfolioOpen(prev => !prev)}
+      />
     </div>
   )
 }
