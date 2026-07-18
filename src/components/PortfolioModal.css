@@ -394,6 +394,10 @@
   background: var(--seed-lavender);
 }
 
+.portfolio__card:nth-child(4) .portfolio__card-surface::after {
+  background: var(--seed-amber);
+}
+
 @media (hover: hover) {
   .portfolio__card:hover .portfolio__card-surface {
     transform: translate(-2px, -2px);

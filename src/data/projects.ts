@@ -44,4 +44,13 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/iCyris/Roselle',
     tags: ['SVG conversion', 'vectorization', 'fidelity'],
   },
+  {
+    id: 'hue',
+    index: 'N°004',
+    name: 'Hue',
+    description:
+      'Requirement documents people actually read. Describe it in natural language, get a self-contained HTML doc with live demos.',
+    githubUrl: 'https://github.com/iCyris/Hue',
+    tags: ['requirements', 'HTML docs', 'live demos'],
+  },
 ];
