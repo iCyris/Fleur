@@ -476,7 +476,7 @@
 /* --- Card description --- */
 .portfolio__card-desc {
   color: var(--portfolio-paper-muted);
-  font-size: var(--fs-small);
+  font-size: 15px;
   line-height: 1.62;
   margin: 0;
   flex: 1;
@@ -736,7 +736,7 @@
   }
 
   .portfolio__card-desc {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .portfolio__footer {
