@@ -4,6 +4,17 @@
   height: 100%;
 }
 
+.human-edge-poster__hit {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.human-edge-poster__hit:focus,
+.human-edge-poster__hit:focus-visible {
+  outline: none;
+}
+
 .human-edge-poster__cursor {
   position: absolute;
   top: 0;

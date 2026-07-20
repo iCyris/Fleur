@@ -128,6 +128,7 @@ export default function HumanEdgePoster({ reduced }: AnimatedPosterProps) {
           transform='translate(240 0)'
         >
           <path
+            className='human-edge-poster__hit'
             d='M -240 460 Q -60 380 120 440 T 560 420 Q 760 396 920 430 Q 1015 452 1080 510 Q 1010 570 900 600 L -240 600 Z'
             fill='var(--seed-ocean)'
             opacity='0.64'
